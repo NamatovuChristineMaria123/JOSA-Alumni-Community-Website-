@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events | JOSA Alumni Community</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            josa: {
+              blue: '#1E3A8A',
+              orange: '#EA580C',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .hero-banner {
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+    .event-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(30, 58, 138, 0.2);
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Hero Banner -->
+  <section class="hero-banner text-white py-24">
+    <div class="container mx-auto text-center px-4">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">JOSA Alumni Events</h1>
+      <p class="text-xl mb-8 max-w-2xl mx-auto">Reconnect, learn, and grow with fellow JOSA graduates</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <button onclick="openSubscriptionModal()" class="bg-josa-blue hover:bg-blue-900 text-white font-bold py-3 px-8 rounded-lg transition">
+          <i class="fas fa-envelope mr-2"></i>Subscribe
+        </button>
+        <button onclick="openHostEventForm()" class="bg-josa-orange hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-lg transition">
+          <i class="fas fa-plus mr-2"></i>Host an Event
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Events -->
+  <section class="container mx-auto py-12 px-4">
+    <h2 class="text-sky-500 text-3xl font-bold text-center mb-6">Upcoming Events</h2>
+    <p class="text-center text-gray-600 mb-10">Join our next gatherings for networking and professional development</p>
+    
+    <div class="row g-4" id="upcoming-events">
+      <!-- Event 1 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 border-0 shadow-sm event-card">
+          <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="card-img-top" alt="Tech Talk">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 class="card-title mb-0">Tech Talk: AI in Jordan</h5>
+              <span class="badge bg-josa-blue text-white">Workshop</span>
+            </div>
+            <p class="text-muted small mb-2"><i class="far fa-calendar me-1"></i>June 15, 2024 | 6:00 PM</p>
+            <p class="text-muted small mb-3"><i class="fas fa-map-marker-alt me-1"></i>JOSA HQ, Amman</p>
+            <p class="card-text small mb-3">Join industry leaders discussing AI advancements in Jordan's tech ecosystem.</p>
+            <button class="btn btn-sm btn-josa-blue w-100" onclick="openRegistrationModal('Tech Talk: AI in Jordan')">
+              Register <i class="fas fa-arrow-right ms-1"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Event 2 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 border-0 shadow-sm event-card">
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" class="card-img-top" alt="Alumni Reunion">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 class="card-title mb-0">10th Year Alumni Reunion</h5>
+              <span class="badge bg-josa-orange text-white">Social</span>
+            </div>
+            <p class="text-muted small mb-2"><i class="far fa-calendar me-1"></i>July 5, 2024 | 7:30 PM</p>
+            <p class="text-muted small mb-3"><i class="fas fa-map-marker-alt me-1"></i>Rotana Hotel, Amman</p>
+            <p class="card-text small mb-3">Celebrate a decade of JOSA alumni achievements with dinner and networking.</p>
+            <button class="btn btn-sm btn-josa-blue w-100" onclick="openRegistrationModal('10th Year Alumni Reunion')">
+              Register <i class="fas fa-arrow-right ms-1"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Event 3 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 border-0 shadow-sm event-card">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="card-img-top" alt="Career Workshop">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 class="card-title mb-0">Career Growth Workshop</h5>
+              <span class="badge bg-josa-blue text-white">Workshop</span>
+            </div>
+            <p class="text-muted small mb-2"><i class="far fa-calendar me-1"></i>August 12, 2024 | 5:00 PM</p>
+            <p class="text-muted small mb-3"><i class="fas fa-map-marker-alt me-1"></i>Online (Zoom)</p>
+            <p class="card-text small mb-3">Learn negotiation strategies and career planning from JOSA alumni executives.</p>
+            <button class="btn btn-sm btn-josa-blue w-100" onclick="openRegistrationModal('Career Growth Workshop')">
+              Register <i class="fas fa-arrow-right ms-1"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Past Events -->
+  <section class="bg-gray-100 py-12">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold  text-sky-500 text-center mb-6">Past Events</h2>
+      <p class="text-center text-gray-600 mb-10">Relive our successful alumni gatherings</p>
+      
+      <div class="row g-4">
+        <!-- Past Event 1 -->
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 border-0 shadow-sm">
+            <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1494&q=80" class="card-img-top" alt="Hackathon">
+            <div class="card-body">
+              <h5 class="card-title">JOSA Hackathon 2023</h5>
+              <p class="text-muted small"><i class="far fa-calendar me-1"></i>November 18, 2023</p>
+              <p class="card-text small mb-3">24-hour coding competition with 15 teams participating.</p>
+              <a href="#" class="btn btn-sm btn-outline-josa-blue w-100">
+                View Photos <i class="fas fa-camera ms-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Past Event 2 -->
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 border-0 shadow-sm">
+            <img src="https://images.unsplash.com/photo-1541178735493-479c1a27ed24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" class="card-img-top" alt="Mentorship">
+            <div class="card-body">
+              <h5 class="card-title">Mentorship Program Launch</h5>
+              <p class="text-muted small"><i class="far fa-calendar me-1"></i>March 5, 2023</p>
+              <p class="card-text small mb-3">Connected 50 alumni mentors with current students.</p>
+              <a href="#" class="btn btn-sm btn-outline-josa-blue w-100">
+                View Photos <i class="fas fa-camera ms-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Past Event 3 -->
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 border-0 shadow-sm">
+            <img src="Images/gro.jpg">
+            <div class="card-body">
+              <h5 class="card-title">Startup Panel Discussion</h5>
+              <p class="text-muted small"><i class="far fa-calendar me-1"></i>October 12, 2022</p>
+              <p class="card-text small mb-3">JOSA alumni founders sharing their entrepreneurial journeys.</p>
+              <a href="#" class="btn btn-sm btn-outline-josa-blue w-100">
+                View Photos <i class="fas fa-camera ms-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Past Event 4 -->
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 border-0 shadow-sm">
+            <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="card-img-top" alt="Graduation">
+            <div class="card-body">
+              <h5 class="card-title">Annual Graduation Dinner</h5>
+              <p class="text-muted small"><i class="far fa-calendar me-1"></i>June 20, 2022</p>
+              <p class="card-text small mb-3">Celebrating the newest JOSA alumni members.</p>
+              <a href="#" class="btn btn-sm btn-outline-josa-blue w-100">
+                View Photos <i class="fas fa-camera ms-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-10">
+        <a href="#" class="inline-block px-6 py-3 bg-josa-blue text-white rounded-lg hover:bg-blue-900 transition">
+          View All Past Events <i class="fas fa-arrow-right ms-2"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter CTA -->
+  <section class="bg-sky-500 text-white py-16">
+    <div class="container mx-auto text-center px-4 max-w-4xl">
+      <h3 class="text-3xl font-bold mb-4">Stay Connected</h3>
+      <p class="mb-8 text-blue-100">Get updates on alumni events, job opportunities, and community news</p>
+      <form class="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+        <input type="email" placeholder="Your Email" class="flex-grow px-4 py-3 rounded-lg" required>
+        <button type="submit" class="bg-blue-900 hover:bg-orange-700 text-white font-bold px-6 py-3 rounded-lg transition">
+          Subscribe
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <h4 class="text-xl font-bold mb-4">JOSA Alumni</h4>
+          <p class="text-gray-400">Connecting Jordanian Open Source Association graduates worldwide since 2010.</p>
+        </div>
+        <div class="col-lg-2 col-md-4">
+          <h5 class="font-bold mb-4">Events</h5>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white">Upcoming</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Past Events</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Event Photos</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-4">
+          <h5 class="font-bold mb-4">Community</h5>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white">Mentorship</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Job Board</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Volunteer</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <h5 class="font-bold mb-4">Contact</h5>
+          <div class="flex gap-4 text-2xl mb-4">
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-whatsapp"></i></a>
+          </div>
+          <p class="text-gray-400">alumni@josa.org.jo</p>
+        </div>
+      </div>
+      <hr class="my-8 border-gray-800">
+      <div class="text-center text-gray-500">
+        © 2024 JOSA Alumni Community. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Subscription Modal -->
+  <div class="modal fade" id="subscriptionModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Stay Updated</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label class="form-label">Full Name</label>
+              <input type="text" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Graduation Year</label>
+              <select class="form-select">
+                <option>Select Year</option>
+                <option>2020-2024</option>
+                <option>2015-2019</option>
+                <option>2010-2014</option>
+                <option>Before 2010</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-josa-blue w-100 py-2">
+              Subscribe to Newsletter
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Host Event Modal -->
+  <div class="modal fade" id="hostEventModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Host an Alumni Event</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Event Name</label>
+                <input type="text" class="form-control" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Event Type</label>
+                <select class="form-select" required>
+                  <option>Select Type</option>
+                  <option>Workshop/Training</option>
+                  <option>Networking</option>
+                  <option>Social Gathering</option>
+                  <option>Conference</option>
+                </select>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" rows="3" required></textarea>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Date</label>
+                <input type="date" class="form-control" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Location</label>
+                <input type="text" class="form-control" placeholder="City/Venue" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Your Contact Email</label>
+              <input type="email" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-josa-orange w-100 py-2">
+              Submit Event Proposal
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Registration Modal -->
+  <div class="modal fade" id="registrationModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registrationModalTitle">Event Registration</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label class="form-label">Full Name</label>
+              <input type="text" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Graduation Year</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Special Requirements</label>
+              <textarea class="form-control" rows="2" placeholder="Dietary needs, accessibility, etc."></textarea>
+            </div>
+            <button type="submit" class="btn btn-josa-blue w-100 py-2">
+              Complete Registration
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Initialize modals
+    const subscriptionModal = new bootstrap.Modal('#subscriptionModal');
+    const hostEventModal = new bootstrap.Modal('#hostEventModal');
+    const registrationModal = new bootstrap.Modal('#registrationModal');
+
+    // Open subscription modal
+    function openSubscriptionModal() {
+      subscriptionModal.show();
+    }
+
+    // Open host event modal
+    function openHostEventForm() {
+      hostEventModal.show();
+    }
+
+    // Open registration modal with event title
+    function openRegistrationModal(eventTitle) {
+      document.getElementById('registrationModalTitle').textContent = `Register for ${eventTitle}`;
+      registrationModal.show();
+    }
+  </script>
+</body>
+</html>
+</html>

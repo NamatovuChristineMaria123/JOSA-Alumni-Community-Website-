@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOSA Alumni Network - Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sky: {
+                            500: '#0ea5e9',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .dashboard-header {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+        }
+        .nav-link.active {
+            border-left: 3px solid #0ea5e9;
+            font-weight: 600;
+        }
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.1);
+        }
+        .event-card {
+            border-left: 3px solid #0ea5e9;
+        }
+        
+        /* Profile dropdown styles */
+        .profile-dropdown {
+            transition: all 0.3s ease;
+            transform-origin: top right;
+        }
+        .profile-dropdown a {
+            transition: background-color 0.2s ease;
+        }
+        .profile-dropdown a:hover {
+            background-color: #f0f9ff;
+            color: #0ea5e9;
+        }
+        
+        /* Mobile responsive sidebar styles */
+        @media (max-width: 1023px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 280px;
+                height: 100vh;
+                z-index: 1000;
+                transition: all 0.3s ease;
+                overflow-y: auto;
+            }
+            .sidebar.active {
+                left: 0;
+                box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+            }
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0,0,0,0.5);
+                z-index: 999;
+            }
+            .sidebar-overlay.active {
+                display: block;
+            }
+            .mobile-menu-button {
+                display: flex !important;
+            }
+            .main-content {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+        }
+        
+        /* Mobile menu button */
+        .mobile-menu-button {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1100;
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .mobile-menu-button:hover {
+            background: #0284c7;
+            transform: scale(1.05);
+        }
+        
+        /* Close button in sidebar */
+        .sidebar-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            color: #6b7280;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .sidebar-close-btn:hover {
+            color: #0ea5e9;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Mobile Menu Button -->
+    <button id="mobileMenuButton" class="mobile-menu-button" aria-label="Open navigation menu">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <!-- Sidebar Overlay -->
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+    <!-- Dashboard Layout -->
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar w-64 bg-white shadow-md">
+            <div class="p-4 flex items-center border-b relative">
+                <button id="closeSidebar" class="sidebar-close-btn lg:hidden">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="flex items-center ml-8">
+                    <span class="ml-2 font-semibold text-lg">JOSA Alumni</span>
+                </div>
+            </div>
+            <nav class="mt-6">
+                <div class="px-4">
+                    <p class="text-gray-500 uppercase text-xs font-bold mb-4">Main Menu</p>
+                    <a href="#" class="nav-link active flex items-center py-3 px-4 text-sky-500">
+                        <i class="fas fa-home mr-3"></i> Dashboard
+                    </a>
+                    <a href="directory.html" class="nav-link flex items-center py-3 px-4 text-gray-600 hover:text-sky-500">
+                        <i class="fas fa-users mr-3"></i> Alumni Directory
+                    </a>
+                    <a href="events.html" class="nav-link flex items-center py-3 px-4 text-gray-600 hover:text-sky-500">
+                        <i class="fas fa-calendar-alt mr-3"></i> Events
+                    </a>
+                    <a href="donations.html" class="nav-link flex items-center py-3 px-4 text-gray-600 hover:text-sky-500">
+                        <i class="fas fa-hand-holding-heart mr-3"></i> Donate
+                    </a>
+                    <a href="career.html" class="nav-link flex items-center py-3 px-4 text-gray-600 hover:text-sky-500">
+                        <i class="fas fa-briefcase mr-3"></i> Careers
+                    </a>
+                    <a href="mentorship.html" class="nav-link flex items-center py-3 px-4 text-gray-600 hover:text-sky-500">
+                        <i class="fas fa-hands-helping mr-3"></i> Mentorship
+                    </a>
+                    <a href="messages.html" class="nav-link flex items-center py-3 px-4 text-gray-600 hover:text-sky-500">
+                        <i class="fas fa-envelope mr-3"></i> Messages
+                    </a>
+                    <a href="notifications.html" class="nav-link flex items-center py-3 px-4 text-gray-600 hover:text-sky-500">
+                        <i class="fas fa-bell mr-3"></i> Notifications
+                    </a>
+                </div>
+                <div class="px-4 mt-8">
+                    <p class="text-gray-500 uppercase text-xs font-bold mb-4">Account</p>
+                    <a href="profile.html" class="nav-link flex items-center py-3 px-4 text-gray-600 hover:text-sky-500">
+                        <i class="fas fa-user mr-3"></i> Profile
+                    </a>
+                    <a href="account_settings.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50">
+                        <i class="fas fa-cog mr-3"></i> Account Settings
+                    </a>
+                    
+                </div>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-auto main-content">
+            <!-- Header -->
+            <header class="dashboard-header text-white p-6 shadow-md">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-2xl font-bold">Welcome back, <span id="userName">Alumni</span>!</h1>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <i class="fas fa-bell text-xl cursor-pointer hover:text-sky-200 transition"></i>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                        </div>
+                        <div class="relative group">
+                            <button id="profileDropdownButton" class="flex items-center focus:outline-none">
+                                <img src="Images/Tes2.jpeg" alt="Profile" class="rounded-full h-10 w-10">
+                                <i class="fas fa-chevron-down ml-1 text-sm text-gray-300 group-hover:text-sky-300 transition"></i>
+                            </button>
+                            <!-- Dropdown menu -->
+                            <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 border">
+                                <div class="py-1">
+                                    <a href="profile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50">
+                                        <i class="fas fa-user-edit mr-2"></i> Edit Profile
+                                    </a>
+                                    <a href="settings.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50">
+                                        <i class="fas fa-cog mr-2"></i> Account Settings
+                                    </a>
+                                    <a href="notifications.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50">
+                                        <i class="fas fa-bell mr-2"></i> Notifications
+                                    </a>
+                                    <a href="login.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 border-t">
+                                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <main class="p-6">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="stat-card bg-white rounded-lg shadow p-6">
+                        <div class="flex justify-between">
+                            <div>
+                                <p class="text-gray-500">Connections</p>
+                                <h3 class="text-2xl font-bold">128</h3>
+                            </div>
+                            <div class="bg-sky-100 text-sky-500 p-3 rounded-full">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card bg-white rounded-lg shadow p-6">
+                        <div class="flex justify-between">
+                            <div>
+                                <p class="text-gray-500">Upcoming Events</p>
+                                <h3 class="text-2xl font-bold">5</h3>
+                            </div>
+                            <div class="bg-sky-100 text-sky-500 p-3 rounded-full">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card bg-white rounded-lg shadow p-6">
+                        <div class="flex justify-between">
+                            <div>
+                                <p class="text-gray-500">New Messages</p>
+                                <h3 class="text-2xl font-bold">12</h3>
+                            </div>
+                            <div class="bg-sky-100 text-sky-500 p-3 rounded-full">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card bg-white rounded-lg shadow p-6">
+                        <div class="flex justify-between">
+                            <div>
+                                <p class="text-gray-500">Years Since Grad</p>
+                                <h3 class="text-2xl font-bold">10</h3>
+                            </div>
+                            <div class="bg-sky-100 text-sky-500 p-3 rounded-full">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Two Column Layout -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Left Column -->
+                    <div class="lg:col-span-2">
+                        <!-- Upcoming Events -->
+                        <div class="bg-white rounded-lg shadow mb-6">
+                            <div class="p-4 border-b">
+                                <h2 class="text-lg font-semibold flex items-center">
+                                    <i class="fas fa-calendar-alt text-sky-500 mr-2"></i> Upcoming Events
+                                </h2>
+                            </div>
+                            <div class="p-4">
+                                <div class="event-card bg-gray-50 rounded p-4 mb-3">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h3 class="font-bold">Annual Alumni Reunion</h3>
+                                            <p class="text-sm text-gray-500">
+                                                <i class="fas fa-clock mr-1"></i> Sat, Jun 15 • 2:00 PM
+                                            </p>
+                                            <p class="text-sm text-gray-500">
+                                                <i class="fas fa-map-marker-alt mr-1"></i> Jeressar High School Campus
+                                            </p>
+                                        </div>
+                                        <span class="bg-sky-100 text-sky-500 text-xs px-2 py-1 rounded-full">Registered</span>
+                                    </div>
+                                </div>
+                                <div class="event-card bg-gray-50 rounded p-4 mb-3">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h3 class="font-bold">Career Networking Workshop</h3>
+                                            <p class="text-sm text-gray-500">
+                                                <i class="fas fa-clock mr-1"></i> Wed, Jun 26 • 6:00 PM
+                                            </p>
+                                            <p class="text-sm text-gray-500">
+                                                <i class="fas fa-map-marker-alt mr-1"></i> Virtual (Zoom)
+                                            </p>
+                                        </div>
+                                        <span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full">Not Registered</span>
+                                    </div>
+                                </div>
+                                <a href="events.html" class="text-sky-500 text-sm font-medium flex items-center">
+                                    View all events <i class="fas fa-chevron-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="bg-white rounded-lg shadow">
+                            <div class="p-4 border-b">
+                                <h2 class="text-lg font-semibold flex items-center">
+                                    <i class="fas fa-bell text-sky-500 mr-2"></i> Recent Activity
+                                </h2>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex items-start pb-4 mb-4 border-b">
+                                    <img src="Images/Tes2.jpeg" alt="User" class="rounded-full h-10 w-10 mr-3">
+                                    <div>
+                                        <p class="font-medium">Sarah Johnson</p>
+                                        <p class="text-sm text-gray-600">Shared a new job opportunity at Tech Solutions Inc.</p>
+                                        <p class="text-xs text-gray-500">2 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start pb-4 mb-4 border-b">
+                                    <img src="Images/Tes4.jpeg" alt="User" class="rounded-full h-10 w-10 mr-3">
+                                    <div>
+                                        <p class="font-medium">Michael Omondi</p>
+                                        <p class="text-sm text-gray-600">Posted photos from the 2015 graduation</p>
+                                        <p class="text-xs text-gray-500">1 day ago</p>
+                                    </div>
+                                </div>
+                                <a href="notifications.html" class="text-sky-500 text-sm font-medium flex items-center">
+                                    View all activity notifications<i class="fas fa-chevron-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="lg:col-span-1">
+                        <!-- Quick Actions -->
+                        <div class="bg-white rounded-lg shadow mb-6">
+                            <div class="p-4 border-b">
+                                <h2 class="text-lg font-semibold flex items-center">
+                                    <i class="fas fa-bolt text-sky-500 mr-2"></i> Quick Actions
+                                </h2>
+                            </div>
+                            <div class="p-4">
+                                <button class="w-full bg-sky-500 hover:bg-sky-600 text-white py-2 px-4 rounded mb-3 flex items-center justify-center">
+                                    <i class="fas fa-user-plus mr-2"></i> <a href="directory.html">Connect with Alumni</a>
+                                </button>
+                                <button class="w-full bg-white border border-sky-500 text-sky-500 hover:bg-sky-50 py-2 px-4 rounded mb-3 flex items-center justify-center">
+                                    <i class="fas fa-calendar-plus mr-2"></i> <a href="events.html">Create Event</a>
+                                </button>
+                                <button class="w-full bg-white border border-sky-500 text-sky-500 hover:bg-sky-50 py-2 px-4 rounded flex items-center justify-center">
+                                    <i class="fas fa-hand-holding-heart mr-2"></i><a href="donations.html"> Donate to School</a>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Alumni Spotlight -->
+                        <div class="bg-white rounded-lg shadow">
+                            <div class="p-4 border-b">
+                                <h2 class="text-lg font-semibold flex items-center">
+                                    <i class="fas fa-star text-sky-500 mr-2"></i> Alumni Spotlight
+                                </h2>
+                            </div>
+                            <div class="p-4 text-center">
+                                <img src="Images/almnai2.jpg" alt="Alumni" class="rounded-full h-24 w-24 mx-auto mb-4">
+                                <h3 class="font-bold">Dr. Wanjiku Mwangi</h3>
+                                <p class="text-sm text-gray-600 mb-2">Class of 2005</p>
+                                <p class="text-sm mb-4">Senior Researcher at Kenya Medical Institute</p>
+                                <button class="bg-sky-100 text-sky-500 hover:bg-sky-200 py-1 px-3 rounded-full text-sm">
+                                    <i class="fas fa-envelope mr-1"></i> <a href="messages.html">Send Message</a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Dashboard JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile sidebar toggle
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            const closeSidebar = document.getElementById('closeSidebar');
+            
+            // Initialize mobile menu button visibility
+            if (window.innerWidth < 1024) {
+                mobileMenuButton.style.display = 'flex';
+            }
+            
+            // Toggle sidebar function
+            const toggleSidebar = () => {
+                sidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+            };
+            
+            // Event listeners
+            mobileMenuButton.addEventListener('click', toggleSidebar);
+            closeSidebar.addEventListener('click', toggleSidebar);
+            sidebarOverlay.addEventListener('click', toggleSidebar);
+            
+            // Close sidebar when clicking on nav links (mobile only)
+            if (window.innerWidth < 1024) {
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', toggleSidebar);
+                });
+            }
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 1024) {
+                    // Desktop view - ensure sidebar is visible
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                    mobileMenuButton.style.display = 'none';
+                } else {
+                    // Mobile view - show menu button
+                    mobileMenuButton.style.display = 'flex';
+                }
+            });
+
+            // Profile dropdown functionality
+            const profileDropdownButton = document.getElementById('profileDropdownButton');
+            const profileDropdown = document.getElementById('profileDropdown');
+            
+            profileDropdownButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdown.classList.toggle('hidden');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', () => {
+                profileDropdown.classList.add('hidden');
+            });
+            
+            // Prevent dropdown from closing when clicking inside it
+            profileDropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            // Set username from remembered email if available
+            const rememberedEmail = localStorage.getItem('rememberedEmail');
+            if (rememberedEmail) {
+                const username = rememberedEmail.split('@')[0];
+                document.getElementById('userName').textContent = username.charAt(0).toUpperCase() + username.slice(1);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support JOSA | Donate Today</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sky: {
+                            500: '#0ea5e9',
+                            700: '#0369a1',
+                            100: '#e0f2fe'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+        }
+        
+        .donation-card {
+            transition: all 0.3s ease;
+        }
+        
+        .donation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.2);
+        }
+        
+        .progress-bar {
+            transition: width 1s ease-in-out;
+            background: linear-gradient(90deg, #bae6fd, #0ea5e9);
+        }
+        
+        .payment-method.selected {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.3);
+        }
+        
+        .impact-stat div {
+            transition: all 0.5s ease;
+        }
+        
+        .floating-label {
+            position: relative;
+        }
+        
+        .floating-label input:focus + label,
+        .floating-label input:not(:placeholder-shown) + label {
+            transform: translateY(-24px) scale(0.9);
+            color: #0ea5e9;
+        }
+        
+        .checkmark {
+            color: #0ea5e9;
+        }
+    </style>
+</head>
+<body class="bg-sky-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Support JOSA</h1>
+            <p class="text-xl opacity-90 max-w-2xl mx-auto">
+                Your donation helps us empower the next generation of tech leaders. Every contribution makes a difference!
+            </p>
+            <div class="mt-8">
+                <span class="inline-block bg-white/20 px-4 py-2 rounded-full text-sm font-medium">
+                    <i class="fas fa-heart mr-2"></i>Tax-deductible in many countries
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="container mx-auto px-4 mt-8 -mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6 max-w-4xl mx-auto">
+            <h3 class="text-xl font-semibold mb-4 text-sky-800">Our Goal: <span class="font-bold">5M</span></h3>
+            <div class="w-full bg-gray-200 rounded-full h-3 mb-2">
+                <div id="progressBar" class="progress-bar h-3 rounded-full" style="width: 65%"></div>
+            </div>
+            <div class="flex justify-between text-sm text-gray-600">
+                <span><span id="raisedAmount" class="font-bold text-sky-700">3.2M</span> raised</span>
+                <span>65% of goal</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donation Tiers -->
+    <section class="container mx-auto px-4 py-16" id="donate">
+        <h2 class="text-3xl font-bold text-center mb-12 text-sky-800">Choose Your Donation Tier</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <!-- Tier 1 -->
+            <div class="donation-card bg-white rounded-xl shadow-md p-6 border-2 border-gray-100 hover:border-sky-300">
+                <div class="text-center mb-4">
+                    <h3 class="text-2xl font-bold text-sky-600">Supporter</h3>
+                    <p class="text-gray-500">Perfect for individuals</p>
+                </div>
+                <div class="text-center mb-6">
+                    <span class="text-4xl font-bold text-sky-700">70K</span>
+                </div>
+                <ul class="mb-6 space-y-3 text-gray-700">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle checkmark mt-1 mr-2"></i>
+                        <span>Thank-you email</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle checkmark mt-1 mr-2"></i>
+                        <span>Shoutout on social media</span>
+                    </li>
+                </ul>
+                <button class="w-full bg-sky-600 hover:bg-sky-700 text-white py-3 rounded-lg font-semibold transition-colors donate-btn" data-tier="supporter">
+                    Donate Now
+                </button>
+            </div>
+
+            <!-- Tier 2 (Featured) -->
+            <div class="donation-card bg-white rounded-xl shadow-lg p-6 border-2 border-sky-300 relative transform md:scale-105">
+                <div class="absolute top-0 right-0 bg-sky-600 text-white px-3 py-1 rounded-bl-xl text-sm font-bold">MOST POPULAR</div>
+                <div class="text-center mb-4">
+                    <h3 class="text-2xl font-bold text-sky-700">Tech Champion</h3>
+                    <p class="text-gray-500">Great for professionals</p>
+                </div>
+                <div class="text-center mb-6">
+                    <span class="text-4xl font-bold text-sky-700">300k</span>
+                </div>
+                <ul class="mb-6 space-y-3 text-gray-700">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle checkmark mt-1 mr-2"></i>
+                        <span>All Supporter perks</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle checkmark mt-1 mr-2"></i>
+                        <span>Exclusive webinar access</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle checkmark mt-1 mr-2"></i>
+                        <span>Name in annual report</span>
+                    </li>
+                </ul>
+                <button class="w-full gradient-bg hover:opacity-90 text-white py-3 rounded-lg font-semibold transition-all donate-btn" data-tier="champion">
+                    Donate Now
+                </button>
+            </div>
+
+            <!-- Tier 3 -->
+            <div class="donation-card bg-white rounded-xl shadow-md p-6 border-2 border-gray-100 hover:border-sky-300">
+                <div class="text-center mb-4">
+                    <h3 class="text-2xl font-bold text-sky-700">Visionary</h3>
+                    <p class="text-gray-500">For organizations</p>
+                </div>
+                <div class="text-center mb-6">
+                    <span class="text-4xl font-bold text-sky-700">1M+</span>
+                </div>
+                <ul class="mb-6 space-y-3 text-gray-700">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle checkmark mt-1 mr-2"></i>
+                        <span>All Tech Champion perks</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle checkmark mt-1 mr-2"></i>
+                        <span>VIP event invitations</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle checkmark mt-1 mr-2"></i>
+                        <span>Logo on website</span>
+                    </li>
+                </ul>
+                <button class="w-full bg-sky-700 hover:bg-sky-800 text-white py-3 rounded-lg font-semibold transition-colors donate-btn" data-tier="visionary">
+                    Donate Now
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Amount -->
+    <section class="container mx-auto px-4 py-12 max-w-3xl">
+        <div class="bg-white rounded-xl shadow-md p-8">
+            <h2 class="text-2xl font-bold text-center mb-6 text-sky-800">Or Give a Custom Amount</h2>
+            
+            <div class="mb-6">
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <button class="quick-amount-btn px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-700 rounded-lg transition-colors">50K</button>
+                    <button class="quick-amount-btn px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-700 rounded-lg transition-colors">75K</button>
+                    <button class="quick-amount-btn px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-700 rounded-lg transition-colors">150K</button>
+                    <button class="quick-amount-btn px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-700 rounded-lg transition-colors">250K</button>
+                </div>
+                
+                <div class="floating-label relative mb-4">
+                    <input 
+                        type="number" 
+                        id="customAmount" 
+                        min="1" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                        placeholder=" "
+                    >
+                    <label for="customAmount" class="absolute left-4 top-3 text-gray-500 pointer-events-none transition-all">Enter amount (Shs)</label>
+                    <div class="absolute right-4 top-3 text-gray-400">Shs</div>
+                </div>
+                
+                <div class="flex items-center mb-4">
+                    <input type="checkbox" id="recurringDonation" class="mr-2 h-5 w-5 text-sky-600 rounded focus:ring-sky-500">
+                    <label for="recurringDonation" class="text-gray-700">Make this a monthly recurring donation</label>
+                </div>
+            </div>
+            
+            <button id="customDonateBtn" class="w-full gradient-bg hover:opacity-90 text-white py-3 rounded-lg font-semibold transition-all">
+                Continue to Payment
+            </button>
+        </div>
+    </section>
+
+    <!-- Payment Methods -->
+    <section class="container mx-auto px-4 py-12">
+        <div class="max-w-2xl mx-auto">
+            <h2 class="text-2xl font-bold text-center mb-8 text-sky-800">Secure Payment Options</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="payment-method p-4 border rounded-xl text-center cursor-pointer hover:bg-gray-50 transition-colors">
+                    <i class="fab fa-cc-visa text-4xl text-blue-800 mb-2"></i>
+                    <p class="text-sm">Visa</p>
+                </div>
+                <div class="payment-method p-4 border rounded-xl text-center cursor-pointer hover:bg-gray-50 transition-colors">
+                    <i class="fab fa-cc-mastercard text-4xl text-red-600 mb-2"></i>
+                    <p class="text-sm">Mastercard</p>
+                </div>
+                <div class="payment-method p-4 border rounded-xl text-center cursor-pointer hover:bg-gray-50 transition-colors">
+                    <i class="fab fa-cc-amex text-4xl text-blue-500 mb-2"></i>
+                    <p class="text-sm">American Express</p>
+                </div>
+                <div class="payment-method p-4 border rounded-xl text-center cursor-pointer hover:bg-gray-50 transition-colors">
+                    <i class="fab fa-cc-paypal text-4xl text-blue-500 mb-2"></i>
+                    <p class="text-sm">PayPal</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Counter -->
+    <section class="gradient-bg text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-12">Your Impact</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div class="impact-stat">
+                    <div id="impactCounter1" class="text-5xl font-bold mb-2" data-target="1200">0</div>
+                    <p>Students Supported</p>
+                </div>
+                <div class="impact-stat">
+                    <div id="impactCounter2" class="text-5xl font-bold mb-2" data-target="85">0</div>
+                    <p>Events Hosted</p>
+                </div>
+                <div class="impact-stat">
+                    <div id="impactCounter3" class="text-5xl font-bold mb-2" data-target="42">0</div>
+                    <p>Projects Funded</p>
+                </div>
+            </div>
+            <p class="mt-12 opacity-90 max-w-2xl mx-auto">
+                With your support, we can continue empowering tech talent worldwide.
+                <span class="block font-semibold text-sky-200 mt-2">Thank you for being part of our mission!</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="container mx-auto px-4 py-16">
+        <h2 class="text-3xl font-bold text-center mb-12 text-sky-800">What Donors Say</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="flex items-center mb-4">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah J." class="w-12 h-12 rounded-full mr-4">
+                    <div>
+                        <h4 class="font-bold">Sarah J.</h4>
+                        <p class="text-sm text-gray-500">Tech Champion Donor</p>
+                    </div>
+                </div>
+                <p class="text-gray-700 italic">"Supporting JOSA has been incredibly rewarding. Seeing the direct impact on students' careers makes every dollar worth it."</p>
+                <div class="mt-3 text-amber-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="flex items-center mb-4">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael T." class="w-12 h-12 rounded-full mr-4">
+                    <div>
+                        <h4 class="font-bold">Michael T.</h4>
+                        <p class="text-sm text-gray-500">Visionary Donor</p>
+                    </div>
+                </div>
+                <p class="text-gray-700 italic">"As a company, we're proud to partner with JOSA. Their work in tech education aligns perfectly with our values."</p>
+                <div class="mt-3 text-amber-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="flex items-center mb-4">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Priya K." class="w-12 h-12 rounded-full mr-4">
+                    <div>
+                        <h4 class="font-bold">Priya K.</h4>
+                        <p class="text-sm text-gray-500">Supporter Donor</p>
+                    </div>
+                </div>
+                <p class="text-gray-700 italic">"I donate monthly because I believe in accessible tech education. JOSA makes it easy to see where my money goes."</p>
+                <div class="mt-3 text-amber-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="container mx-auto px-4 py-12 max-w-4xl">
+        <h2 class="text-3xl font-bold text-center mb-12 text-sky-800">Frequently Asked Questions</h2>
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="faq-item border-b border-gray-200">
+                <button class="faq-question w-full px-6 py-4 text-left font-medium text-sky-800 hover:bg-sky-50 transition-colors flex justify-between items-center">
+                    <span>Is my donation tax-deductible?</span>
+                    <i class="fas fa-chevron-down transition-transform"></i>
+                </button>
+                <div class="faq-answer px-6 pb-4 hidden">
+                    <p class="text-gray-700">Yes, JOSA is a registered 501(c)(3) nonprofit organization in the United States, and donations are tax-deductible to the extent allowed by law. International donors should consult their local tax laws.</p>
+                </div>
+            </div>
+            <div class="faq-item border-b border-gray-200">
+                <button class="faq-question w-full px-6 py-4 text-left font-medium text-sky-800 hover:bg-sky-50 transition-colors flex justify-between items-center">
+                    <span>How will my donation be used?</span>
+                    <i class="fas fa-chevron-down transition-transform"></i>
+                </button>
+                <div class="faq-answer px-6 pb-4 hidden">
+                    <p class="text-gray-700">Your donation supports our core programs including student scholarships, community events, educational resources, and technology infrastructure. We allocate 85% of donations directly to programs, with 15% supporting operational costs.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question w-full px-6 py-4 text-left font-medium text-sky-800 hover:bg-sky-50 transition-colors flex justify-between items-center">
+                    <span>Can I get a refund if I change my mind?</span>
+                    <i class="fas fa-chevron-down transition-transform"></i>
+                </button>
+                <div class="faq-answer px-6 pb-4 hidden">
+                    <p class="text-gray-700">We typically don't offer refunds as donations are immediately put to work supporting our mission. However, if there was an error in your donation, please contact us within 7 days at donations@josa.org.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="gradient-bg text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6">Ready to Make a Difference?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Join hundreds of supporters who believe in the power of tech education.</p>
+            <button class="bg-white text-sky-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg transition-colors">
+                <a href="#donate">Donate Now</a>
+    
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-sky-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">JOSA</h3>
+                    <p class="text-sky-200">Empowering the next generation of technology leaders through education, community, and opportunity.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sky-200 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="text-sky-200 hover:text-white transition-colors">Our Programs</a></li>
+                        <li><a href="#" class="text-sky-200 hover:text-white transition-colors">Success Stories</a></li>
+                        <li><a href="#" class="text-sky-200 hover:text-white transition-colors">Volunteer</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Contact</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center"><i class="fas fa-envelope mr-2 text-sky-300"></i> <a href="mailto:hello@josa.org" class="text-sky-200 hover:text-white transition-colors">hello@josa.org</a></li>
+                        <li class="flex items-center"><i class="fas fa-phone mr-2 text-sky-300"></i> <span class="text-sky-200">+256-741-474-780</span></li>
+                        <li class="flex items-center"><i class="fas fa-map-marker-alt mr-2 text-sky-300"></i> <span class="text-sky-200">Kampala, Uganda</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-sky-200 hover:text-white text-xl transition-colors"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-sky-200 hover:text-white text-xl transition-colors"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-sky-200 hover:text-white text-xl transition-colors"><i class="fab fa-github"></i></a>
+                        <a href="#" class="text-sky-200 hover:text-white text-xl transition-colors"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    <div class="mt-6">
+                        <p class="text-sm text-sky-300">Subscribe to our newsletter</p>
+                        <div class="flex mt-2">
+                            <input type="email" placeholder="Your email" class="px-3 py-2 rounded-l-lg text-gray-800 w-full">
+                            <button class="bg-sky-600 hover:bg-sky-700 px-4 py-2 rounded-r-lg transition-colors">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-sky-800 mt-8 pt-8 text-center text-sky-300">
+                <p>© 2025 JOSA Almumni Community. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Animate impact counters
+        function animateCounters() {
+            const counters = document.querySelectorAll('.impact-stat div');
+            const speed = 200;
+
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const increment = target / speed;
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(animateCounters, 1);
+                } else {
+                    counter.innerText = target;
+                }
+            });
+        }
+
+        // Run counters when section is visible
+        function checkCounters() {
+            const impactSection = document.querySelector('.impact-stat');
+            if (!impactSection) return;
+
+            const sectionPosition = impactSection.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.3;
+
+            if (sectionPosition < screenPosition) {
+                animateCounters();
+                window.removeEventListener('scroll', checkCounters);
+            }
+        }
+
+        // FAQ accordion functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+                
+                // Toggle answer visibility
+                answer.classList.toggle('hidden');
+                
+                // Rotate icon
+                icon.classList.toggle('rotate-180');
+                
+                // Close other open FAQs
+                document.querySelectorAll('.faq-question').forEach(q => {
+                    if (q !== question) {
+                        q.nextElementSibling.classList.add('hidden');
+                        q.querySelector('i').classList.remove('rotate-180');
+                    }
+                });
+            });
+        });
+
+        // Payment method selection
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', () => {
+                document.querySelectorAll('.payment-method').forEach(m => {
+                    m.classList.remove('selected');
+                });
+                method.classList.add('selected');
+            });
+        });
+
+        // Quick amount buttons
+        document.querySelectorAll('.quick-amount-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const amount = btn.textContent.replace('$', '');
+                document.getElementById('customAmount').value = amount;
+            });
+        });
+
+        // Tier donation buttons
+        document.querySelectorAll('.donate-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tier = btn.getAttribute('data-tier');
+                let amount = '';
+                let tierName = '';
+                
+                switch(tier) {
+                    case 'supporter':
+                        amount = 25;
+                        tierName = 'Supporter';
+                        break;
+                    case 'champion':
+                        amount = 100;
+                        tierName = 'Tech Champion';
+                        break;
+                    case 'visionary':
+                        amount = 500;
+                        tierName = 'Visionary';
+                        break;
+                }
+                
+                // In a real implementation, this would redirect to payment processing
+                alert(`Thank you for choosing the ${tierName} tier! Your donation amount is $${amount}. You will now be redirected to our secure payment processor.`);
+            });
+        });
+
+        // Custom donation validation
+        document.getElementById('customDonateBtn').addEventListener('click', () => {
+            const amount = document.getElementById('customAmount').value;
+            const isRecurring = document.getElementById('recurringDonation').checked;
+            
+            if (!amount || amount < 1) {
+                alert('Please enter a valid amount!');
+                return;
+            }
+            
+            const recurringText = isRecurring ? ' as a monthly recurring donation' : '';
+            alert(`Thank you for your donation of $${amount}${recurringText}! You will now be redirected to our secure payment processor.`);
+        });
+
+        // Initialize counters on page load if section is visible
+        window.addEventListener('load', checkCounters);
+        window.addEventListener('scroll', checkCounters);
+    </script>
+</body>
+</html>

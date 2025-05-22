@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOSA Alumni - Mentorship Program</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        josa: {
+                            blue: '#0e4e8a',
+                            orange: '#f36f21',
+                            teal: '#2aa8a8'
+                        },
+                        sky: {
+                            500: '#0ea5e9'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .mentorship-card {
+            transition: all 0.3s ease;
+            border-top: 4px solid;
+        }
+        .mentorship-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(15, 111, 33, 0.1);
+        }
+        .form-input {
+            @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all;
+        }
+        .form-label {
+            @apply block text-gray-700 font-medium mb-2;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0e4e8a 0%, #0ea5e9 100%);
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-sky-500 flex items-center">
+                <i class="fas fa-network-wired mr-2"></i>
+                JOSA Alumni
+            </a>
+            <div class="hidden md:flex space-x-6">
+                <a href="mentorship.html" class="font-medium text-sky-500">Mentorship</a>
+                <a href="career.html" class="text-josa-blue hover:text-sky-500 transition-colors">Careers</a>
+                <a href="events.html" class="text-josa-blue hover:text-sky-500 transition-colors">Events</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">JOSA Mentorship Program</h1>
+            <p class="text-xl max-w-2xl mx-auto mb-8">
+                Connecting experienced alumni with current members to foster professional growth
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#mentee" class="bg-white text-sky-500 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors">
+                    I Need a Mentor
+                </a>
+                <a href="#mentor" class="bg-transparent border-2 border-white px-8 py-3 rounded-lg font-bold hover:bg-white/10 transition-colors">
+                    I Want to Mentor
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Overview -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center mb-12">
+                <h2 class="text-3xl font-bold text-sky-500 mb-4">How It Works</h2>
+                <p class="text-lg text-gray-700">
+                    Our structured 6-month mentorship program matches alumni mentors with mentees based on 
+                    career goals, industry, and personality compatibility.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="mentorship-card bg-gray-50 p-6 rounded-lg border-t-josa-orange">
+                    <div class="text-josa-orange text-3xl mb-4">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3 text-sky-500">Strategic Matching</h3>
+                    <p class="text-gray-700">
+                        We carefully match mentors and mentees based on detailed profiles and compatibility factors
+                    </p>
+                </div>
+                <div class="mentorship-card bg-gray-50 p-6 rounded-lg border-t-josa-teal">
+                    <div class="text-josa-teal text-3xl mb-4">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3 text-sky-500">Structured Program</h3>
+                    <p class="text-gray-700">
+                        Monthly meetings with suggested discussion topics and goal-setting frameworks
+                    </p>
+                </div>
+                <div class="mentorship-card bg-gray-50 p-6 rounded-lg border-t-sky-500">
+                    <div class="text-sky-500 text-3xl mb-4">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3 text-sky-500">Community</h3>
+                    <p class="text-gray-700">
+                        Access to exclusive mentor/mentee networking events and resources
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- For Mentees -->
+    <section id="mentee" class="py-16 bg-sky-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-sky-500">For Mentees</h2>
+            
+            <div class="flex flex-col md:flex-row gap-8 max-w-5xl mx-auto">
+                <div class="md:w-1/2">
+                    <h3 class="text-2xl font-semibold text-josa-orange mb-4">Benefits</h3>
+                    <ul class="space-y-4 text-gray-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-josa-teal text-xl mr-3 mt-1"></i>
+                            <span>Personalized guidance from experienced professionals</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-josa-teal text-xl mr-3 mt-1"></i>
+                            <span>Career path clarity and professional development</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-josa-teal text-xl mr-3 mt-1"></i>
+                            <span>Access to industry insights and hidden opportunities</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-josa-teal text-xl mr-3 mt-1"></i>
+                            <span>Expanded professional network</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="md:w-1/2 bg-opacity-50 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-sky-500 mb-4">Apply as a Mentee</h3>
+                    <form class="space-y-4">
+                        <div>
+                            <label for="mentee-name" class="form-label">Full Name</label>
+                            <input type="text" id="mentee-name" class="form-input" required>
+                        </div>
+                        <div>
+                            <label for="mentee-email" class="form-label">Email</label>
+                            <input type="email" id="mentee-email" class="form-input" required>
+                        </div>
+                        <!-- <div>
+                            <label for="mentee-year" class="form-label">Graduation Year</label>
+                            <select id="mentee-year" class="form-input" required>
+                                <option value="">Select year</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                                <option value="2020">2020</option>
+                            </select>
+                        </div> -->
+                        <div class="mb-3">
+                            <label for="graduationYear" class="form-label">Year of completion <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="graduationYear" 
+                                   pattern="^(19|20)\d{2}$" 
+                                   title="Please enter a valid 4-digit year (e.g., 2010)" 
+                                   required>
+                            <div class="invalid-feedback">Please enter a valid 4-digit graduation year (e.g., 2010)</div>
+                        </div>
+                        
+                        <div>
+                            <label for="mentee-goals" class="form-label">Mentorship Goals</label>
+                            <textarea id="mentee-goals" rows="3" class="form-input" required></textarea>
+                        </div>
+                        <div class="pt-2">
+                            <button type="submit" class="w-full bg-josa-orange text-white py-3 rounded-lg hover:bg-josa-orange/90 transition-colors font-medium">
+                                Submit Application
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- For Mentors -->
+    <section id="mentor" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-sky-500">For Mentors</h2>
+            
+            <div class="flex flex-col md:flex-row-reverse gap-8 max-w-5xl mx-auto">
+                <div class="md:w-1/2">
+                    <h3 class="text-2xl font-semibold text-josa-teal mb-4">Benefits</h3>
+                    <ul class="space-y-4 text-gray-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-josa-orange text-xl mr-3 mt-1"></i>
+                            <span>Give back to the JOSA community</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-josa-orange text-xl mr-3 mt-1"></i>
+                            <span>Develop leadership and coaching skills</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-josa-orange text-xl mr-3 mt-1"></i>
+                            <span>Expand your professional network</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-josa-orange text-xl mr-3 mt-1"></i>
+                            <span>Gain fresh perspectives from emerging talent</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="md:w-1/2 bg-sky-50 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-sky-500 mb-4">Become a Mentor</h3>
+                    <form class="space-y-4">
+                        <div>
+                            <label for="mentor-name" class="form-label">Full Name</label>
+                            <input type="text" id="mentor-name" class="form-input" required>
+                        </div>
+                        <div>
+                            <label for="mentor-email" class="form-label">Email</label>
+                            <input type="email" id="mentor-email" class="form-input" required>
+                        </div>
+                        <div>
+                            <label for="mentor-linkedin" class="form-label">LinkedIn Profile</label>
+                            <input type="url" id="mentor-linkedin" class="form-input" required>
+                        </div>
+                        <div>
+                            <label for="mentor-experience" class="form-label">Years of Experience</label>
+                            <select id="mentor-experience" class="form-input" required>
+                                <option value="">Select years</option>
+                                <option value="3-5">3-5 years</option>
+                                <option value="5-10">5-10 years</option>
+                                <option value="10+">10+ years</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="mentor-expertise" class="form-label">Areas of Expertise</label>
+                            <textarea id="mentor-expertise" rows="3" class="form-input" required></textarea>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="mentor-commitment" class="h-4 w-4 text-sky-500 rounded" required>
+                            <label for="mentor-commitment" class="ml-2 text-gray-700">
+                                I commit to 1-2 hours/month for 6 months
+                            </label>
+                        </div>
+                        <div class="pt-2">
+                            <button type="submit" class="w-full bg-josa-teal text-white py-3 rounded-lg hover:bg-josa-teal/90 transition-colors font-medium">
+                                Submit Mentor Application
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Stories -->
+    <section class="py-16 bg-sky-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-sky-500">Success Stories</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-start mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" class="w-16 h-16 rounded-full object-cover border-2 border-josa-orange mr-4">
+                        <div>
+                            <h3 class="font-bold text-sky-500">Rania Khaled</h3>
+                            <p class="text-sm text-gray-600">Software Engineer @ Jawaker</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic mb-4">
+                        "My mentor helped me navigate my first job transition and negotiate a 30% salary increase. 
+                        The JOSA mentorship program was invaluable in building my confidence."
+                    </p>
+                    <div class="flex justify-end">
+                        <span class="text-josa-orange text-sm font-medium">Class of 2021</span>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-start mb-4">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" class="w-16 h-16 rounded-full object-cover border-2 border-josa-teal mr-4">
+                        <div>
+                            <h3 class="font-bold text-sky-500">Yousef Ahmad</h3>
+                            <p class="text-sm text-gray-600">Product Manager @ Careem</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic mb-4">
+                        "Being a mentor helped me reflect on my own career journey while making an impact. 
+                        I've since hired two of my mentees at my company."
+                    </p>
+                    <div class="flex justify-end">
+                        <span class="text-josa-teal text-sm font-medium">Class of 2014</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="gradient-bg text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6">Ready to Join Our Mentorship Community?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">
+                Whether you're seeking guidance or looking to give back, we have the perfect program for you.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#mentee" class="bg-white text-sky-500 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors">
+                    Apply as Mentee
+                </a>
+                <a href="#mentor" class="bg-josa-orange text-white px-8 py-3 rounded-lg font-bold hover:bg-josa-orange/90 transition-colors">
+                    Become a Mentor
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 text-sky-400">JOSA Alumni</h3>
+                    <p class="text-gray-400">
+                        Building Jordan's tech community through powerful connections since 2010
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-white">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="mentorship.html" class="hover:text-sky-400 transition-colors">Mentorship Program</a></li>
+                        <li><a href="career.html" class="hover:text-sky-400 transition-colors">Career Opportunities</a></li>
+                        <li><a href="events.html" class="hover:text-sky-400 transition-colors">Alumni Events</a></li>
+                        <li><a href="donations.html" class="hover:text-sky-400 transition-colors">Give Back</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-white">Connect With Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-sky-400 text-xl"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-sky-400 text-xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-sky-400 text-xl"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-sky-400 text-xl"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>© 2025 JOSA Alumni Association. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Form submission handling
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const formType = form.id.includes('mentee') ? 'mentee' : 'mentor';
+                alert(`Thank you for your ${formType} application! We'll contact you shortly.`);
+                form.reset();
+            });
+        });
+    </script>
+</body>
+</html>

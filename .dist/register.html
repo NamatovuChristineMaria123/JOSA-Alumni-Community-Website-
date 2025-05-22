@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOSA Alumni Network - Registration</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sky: {
+                            500: '#0ea5e9',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8fafc;
+        }
+        .registration-card {
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.1);
+            transition: all 0.3s ease;
+        }
+        .registration-card:hover {
+            box-shadow: 0 15px 30px rgba(14, 165, 233, 0.2);
+        }
+        .form-control:focus {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 0.25rem rgba(14, 165, 233, 0.25);
+        }
+        .btn-primary {
+            background-color: #0ea5e9;
+            border-color: #0ea5e9;
+        }
+        .btn-primary:hover {
+            background-color: #0284c7;
+            border-color: #0369a1;
+        }
+        .interest-option {
+            transition: all 0.2s ease;
+        }
+        .interest-option:hover {
+            background-color: #e0f2fe;
+        }
+        .interest-option.selected {
+            background-color: #0ea5e9;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="registration-card bg-white p-4 p-md-5 mb-4">
+                    <!-- Header Section -->
+                    <div class="text-center mb-5">
+                        <!-- <img src="Images/logo.jpg" alt="JOSA Logo" class="mb-3"> -->
+                        <h2 class="text-3xl font-bold text-sky-500 mb-2">Join the JOSA Alumni Network</h2>
+                        <p class="text-gray-600">Reconnect with your classmates and access exclusive alumni benefits</p>
+                    </div>
+
+                    <!-- Registration Form -->
+                    <form id="registrationForm" novalidate>
+                        <div class="row">
+                            <!-- Personal Information -->
+                            <div class="col-md-6">
+                                <h4 class="text-xl font-semibold text-sky-500 mb-3 border-b pb-2">Personal Information</h4>
+                                
+                                <div class="mb-3">
+                                    <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="firstName" required>
+                                    <div class="invalid-feedback">Please enter your first name</div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="lastName" class="form-label">Last Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="lastName" required>
+                                    <div class="invalid-feedback">Please enter your last name</div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="email" required>
+                                    <div class="invalid-feedback">Please enter a valid email address</div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="phone">
+                                </div>
+                            </div>
+                            
+                            <!-- Alumni Information -->
+                            <div class="col-md-6">
+                                <h4 class="text-xl font-semibold text-sky-500 mb-3 border-b pb-2">Alumni Information</h4>
+                                
+                                <div class="mb-3">
+                                    <label for="graduationYear" class="form-label">Year of completion <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="graduationYear" 
+                                           pattern="^(19|20)\d{2}$" 
+                                           title="Please enter a valid 4-digit year (e.g., 2010)" 
+                                           required>
+                                    <div class="invalid-feedback">Please enter a valid 4-digit graduation year (e.g., 2010)</div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="profession" class="form-label">Current Profession</label>
+                                    <input type="text" class="form-control" id="profession">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="location" class="form-label">Current Location</label>
+                                    <input type="text" class="form-control" id="location">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Areas of Interest</label>
+                                    <div class="d-flex flex-wrap gap-2" id="interestsContainer">
+                                        <button type="button" class="interest-option btn btn-sm btn-outline-sky-500 rounded-pill" data-value="mentorship">
+                                            <i class="fas fa-user-graduate me-1"></i> Mentorship
+                                        </button>
+                                        <button type="button" class="interest-option btn btn-sm btn-outline-sky-500 rounded-pill" data-value="networking">
+                                            <i class="fas fa-network-wired me-1"></i> Networking
+                                        </button>
+                                        <button type="button" class="interest-option btn btn-sm btn-outline-sky-500 rounded-pill" data-value="events">
+                                            <i class="fas fa-calendar-alt me-1"></i> Events
+                                        </button>
+                                        <button type="button" class="interest-option btn btn-sm btn-outline-sky-500 rounded-pill" data-value="career">
+                                            <i class="fas fa-briefcase me-1"></i> Career
+                                        </button>
+                                        <button type="button" class="interest-option btn btn-sm btn-outline-sky-500 rounded-pill" data-value="fundraising">
+                                            <i class="fas fa-hand-holding-heart me-1"></i> Fundraising
+                                        </button>
+                                    </div>
+                                    <input type="hidden" id="selectedInterests" name="interests">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- What happens with interests -->
+                        <div class="alert alert-info mt-3">
+                            <h5 class="font-bold text-sky-600"><i class="fas fa-info-circle me-2"></i>About Your Interests</h5>
+                            <p class="mb-0">Selecting interests helps us:</p>
+                            <ul class="mt-1">
+                                <li>Match you with relevant alumni and opportunities</li>
+                                <li>Send you personalized event invitations</li>
+                                <li>Connect you with mentors/mentees in your field</li>
+                                <li>Provide tailored resources and job opportunities</li>
+                            </ul>
+                            <p class="mt-2 mb-0">You can update these anytime in your profile settings.</p>
+                        </div>
+                        
+                        <!-- Account Security -->
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <h4 class="text-xl font-semibold text-sky-500 mb-3 border-b pb-2">Account Security</h4>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" id="password" required>
+                                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                        <div class="form-text">Minimum 8 characters with at least 1 number</div>
+                                        <div class="invalid-feedback">Please enter a valid password</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="confirmPassword" class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                                        <input type="password" class="form-control" id="confirmPassword" required>
+                                        <div class="invalid-feedback">Passwords must match</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Terms and Conditions -->
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="termsCheck" required>
+                                <label class="form-check-label" for="termsCheck">
+                                    I agree to the <a href="terms&conditions.html" class="text-sky-500">Terms and Conditions</a> and <a href="privacyPolicy.html" class="text-sky-500">Privacy Policy</a> <span class="text-danger">*</span>
+                                </label>
+                                <div class="invalid-feedback">You must agree before submitting</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary btn-lg" type="submit">Create Account</button>
+                        </div>
+                        
+                        <!-- Login Link -->
+                        <div class="text-center mt-3">
+                            <p class="text-gray-600">Already have an account? <a href="login.html" class="text-sky-500">Log in here</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Password toggle functionality
+            const togglePassword = document.getElementById('togglePassword');
+            const password = document.getElementById('password');
+            
+            togglePassword.addEventListener('click', function() {
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+            });
+            
+            // Interest selection functionality
+            const interestOptions = document.querySelectorAll('.interest-option');
+            const selectedInterestsInput = document.getElementById('selectedInterests');
+            let selectedInterests = [];
+            
+            interestOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    
+                    if (this.classList.contains('selected')) {
+                        // Deselect
+                        this.classList.remove('selected', 'text-white');
+                        this.classList.add('btn-outline-sky-500');
+                        selectedInterests = selectedInterests.filter(item => item !== value);
+                    } else {
+                        // Select
+                        this.classList.add('selected', 'text-white');
+                        this.classList.remove('btn-outline-sky-500');
+                        selectedInterests.push(value);
+                    }
+                    
+                    // Update hidden input
+                    selectedInterestsInput.value = selectedInterests.join(',');
+                });
+            });
+            
+            // Form validation
+            const form = document.getElementById('registrationForm');
+            
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                
+                // Validate graduation year
+                const graduationYear = document.getElementById('graduationYear');
+                const currentYear = new Date().getFullYear();
+                const yearValue = parseInt(graduationYear.value);
+                
+                if (isNaN(yearValue)) {
+                    graduationYear.setCustomValidity('Please enter a valid year');
+                    graduationYear.classList.add('is-invalid');
+                } else if (yearValue < 1900 || yearValue > currentYear + 2) {
+                    graduationYear.setCustomValidity(`Year must be between 1900 and ${currentYear + 2}`);
+                    graduationYear.classList.add('is-invalid');
+                } else {
+                    graduationYear.setCustomValidity('');
+                    graduationYear.classList.remove('is-invalid');
+                }
+                
+                // Password validation
+                const password = document.getElementById('password');
+                const confirmPassword = document.getElementById('confirmPassword');
+                
+                if (password.value.length < 8 || !/\d/.test(password.value)) {
+                    password.setCustomValidity('Password must be at least 8 characters with at least 1 number');
+                    password.classList.add('is-invalid');
+                } else {
+                    password.setCustomValidity('');
+                    password.classList.remove('is-invalid');
+                }
+                
+                if (password.value !== confirmPassword.value) {
+                    confirmPassword.setCustomValidity('Passwords must match');
+                    confirmPassword.classList.add('is-invalid');
+                } else {
+                    confirmPassword.setCustomValidity('');
+                    confirmPassword.classList.remove('is-invalid');
+                }
+                
+                form.classList.add('was-validated');
+                
+                if (form.checkValidity()) {
+                    // Form is valid, you can submit via AJAX or let it submit normally
+                    alert('Registration successful! Welcome to the JOSA Alumni Network.');
+                    // form.submit(); // Uncomment to actually submit the form
+                }
+            }, false);
+            
+            // Real-time validation
+            document.getElementById('graduationYear').addEventListener('input', function() {
+                this.classList.remove('is-invalid');
+            });
+            
+            document.getElementById('password').addEventListener('input', function() {
+                this.classList.remove('is-invalid');
+            });
+            
+            document.getElementById('confirmPassword').addEventListener('input', function() {
+                this.classList.remove('is-invalid');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages | JOSA Alumni</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            corePlugins: {
+                preflight: false,
+            },
+            theme: {
+                extend: {
+                    colors: {
+                        sky: {
+                            500: '#0ea5e9',
+                            600: '#0284c7'
+                        },
+                        josa: {
+                            orange: '#f36f21',
+                            teal: '#2aa8a8'
+                        },
+                        premium: {
+                            dark: '#1e293b',
+                            light: '#f8fafc'
+                        }
+                    },
+                    boxShadow: {
+                        'premium': '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .conversation-active {
+            background-color: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+        }
+        .unread-dot {
+            width: 10px;
+            height: 10px;
+        }
+        .message-in {
+            border-radius: 18px 18px 18px 4px;
+        }
+        .message-out {
+            border-radius: 18px 18px 4px 18px;
+        }
+        .typing-indicator span {
+            animation: bounce 1.5s infinite;
+            display: inline-block;
+        }
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .message-transition {
+            transition: all 0.3s ease;
+        }
+        .search-box:focus-within {
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+        }
+        .file-preview {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 8px;
+        }
+        .file-info {
+            background-color: #f0f9ff;
+            border-radius: 8px;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        .navbar-toggler {
+            display: block !important;
+        }
+        @media (min-width: 992px) {
+            .navbar-toggler {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-premium-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-premium-dark shadow-lg">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="fas fa-network-wired text-sky-500 me-2 fs-4"></i>
+                <span class="fw-bold text-white">JOSA Alumni</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white-50 hover:text-white" href="mentorship.html">
+                            <i class="fas fa-hands-helping me-1"></i> Mentorship
+                        </a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white-50 hover:text-white" href="career.html">
+                            <i class="fas fa-briefcase me-1"></i> Careers
+                        </a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link active text-white fw-bold" href="messages.html">
+                            <i class="fas fa-comments me-1"></i> Messages
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown ms-3">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile" class="rounded-circle border border-2 border-sky-500" width="36" height="36">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container py-4">
+        <div class="row g-4">
+            <!-- Conversations List -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-premium h-100 overflow-hidden">
+                    <div class="card-header bg-white border-0 pb-0">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="mb-0 fw-bold text-premium-dark">Conversations</h5>
+                            <div>
+                                <button class="btn btn-sm btn-sky-500 text-white rounded-pill px-3 me-2" id="sendToMeBtn">
+                                    <i class="fas fa-user me-1"></i> Message Me
+                                </button>
+                                <button class="btn btn-sm btn-sky-500 text-white rounded-pill px-3" id="newMessageBtn">
+                                    <i class="fas fa-plus me-1"></i> New
+                                </button>
+                            </div>
+                        </div>
+                        <div class="search-box input-group mb-3 p-1 bg-gray-100 rounded-pill transition-all">
+                            <span class="input-group-text bg-transparent border-0">
+                                <i class="fas fa-search text-gray-400"></i>
+                            </span>
+                            <input type="text" class="form-control border-0 bg-transparent shadow-none" placeholder="Search messages..." id="searchInput">
+                            <button class="btn btn-sm rounded-pill d-none" id="clearSearch">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0 overflow-hidden">
+                        <div class="list-group list-group-flush" id="conversationList">
+                            <!-- Conversation Items -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Conversation Area -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-premium h-100 overflow-hidden">
+                    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center py-3">
+                        <div class="d-flex align-items-center">
+                            <div class="position-relative">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle me-3" width="48" height="48" id="currentChatAvatar">
+                                <span class="position-absolute bottom-0 end-0 bg-green-500 border border-2 border-white rounded-circle unread-dot" id="onlineStatus"></span>
+                            </div>
+                            <div>
+                                <h5 class="mb-0 fw-bold text-premium-dark" id="currentChatName">Select a conversation</h5>
+                                <small class="text-muted typing-indicator" id="typingIndicator"></small>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-secondary rounded-circle me-2" id="voiceCallBtn" data-bs-toggle="tooltip" title="Voice call">
+                                <i class="fas fa-phone"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary rounded-circle me-2" id="videoCallBtn" data-bs-toggle="tooltip" title="Video call">
+                                <i class="fas fa-video"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary rounded-circle" id="moreOptionsBtn" data-bs-toggle="tooltip" title="More options">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body overflow-auto p-4 bg-gray-50" style="max-height: 60vh;" id="messageContainer">
+                        <div class="text-center py-5 text-muted" id="emptyState">
+                            <i class="fas fa-comments fs-1 mb-3"></i>
+                            <p>Select a conversation to start chatting</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer bg-white border-0 pt-0">
+                        <div class="input-group mb-3">
+                            <input type="file" id="fileUploadInput" class="d-none" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx">
+                            <button class="btn btn-outline-secondary rounded-start-pill" id="attachFileBtn" data-bs-toggle="tooltip" title="Attach file">
+                                <i class="fas fa-paperclip"></i>
+                            </button>
+                            <input type="text" class="form-control border-start-0 border-end-0" placeholder="Type your message..." id="messageInput">
+                            <button class="btn btn-outline-secondary" id="emojiBtn" data-bs-toggle="tooltip" title="Emoji">
+                                <i class="far fa-smile"></i>
+                            </button>
+                            <button class="btn btn-sky-500 text-white rounded-end-pill" id="sendMessageBtn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <div id="filePreviewContainer" class="d-none">
+                            <div class="d-flex align-items-center bg-light p-2 rounded">
+                                <div id="filePreviewContent"></div>
+                                <button class="btn btn-sm btn-link text-danger ms-auto" id="removeFileBtn">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Message Modal -->
+    <div class="modal fade" id="newMessageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-premium">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold text-premium-dark">New Message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bg-gray-100 border-0"><i class="fas fa-search"></i></span>
+                        <input type="text" class="form-control border-0 bg-gray-100" placeholder="Search alumni..." id="contactSearch">
+                    </div>
+                    <div class="list-group list-group-flush" id="contactList">
+                        <!-- Contact items will be loaded here -->
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-sky-500 text-white" id="startChatBtn">Start Chat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Sample data
+        const conversations = [
+            {
+                id: 1,
+                name: "Sarah Al-Hassan",
+                avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+                lastMessage: "Hey! About that mentorship opportunity...",
+                time: "2h ago",
+                online: true,
+                typing: false,
+                messages: [
+                    {
+                        type: "in",
+                        text: "Hi there! I saw your profile on the JOSA alumni directory and wanted to connect about a potential mentorship opportunity.",
+                        time: "10:30 AM",
+                        read: true
+                    },
+                    {
+                        type: "out",
+                        text: "Hi Sarah! I'd be happy to discuss mentorship. What specific areas are you interested in?",
+                        time: "10:35 AM",
+                        read: true
+                    }
+                ]
+            },
+            {
+                id: 2,
+                name: "Omar Nasser",
+                avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+                lastMessage: "The job posting is now live!",
+                time: "5h ago",
+                online: false,
+                typing: false,
+                messages: [
+                    {
+                        type: "in",
+                        text: "Hey! The job posting we discussed is now live on our careers page. I think you'd be a great fit!",
+                        time: "9:15 AM",
+                        read: true
+                    }
+                ]
+            },
+            {
+                id: 3,
+                name: "Admin (Me)",
+                avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+                lastMessage: "Your messages to yourself appear here",
+                time: "Just now",
+                online: true,
+                typing: false,
+                messages: []
+            }
+        ];
+
+        // DOM Elements
+        const messageContainer = document.getElementById('messageContainer');
+        const conversationList = document.getElementById('conversationList');
+        const currentChatName = document.getElementById('currentChatName');
+        const currentChatAvatar = document.getElementById('currentChatAvatar');
+        const onlineStatus = document.getElementById('onlineStatus');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const emptyState = document.getElementById('emptyState');
+        const fileUploadInput = document.getElementById('fileUploadInput');
+        const filePreviewContainer = document.getElementById('filePreviewContainer');
+        const filePreviewContent = document.getElementById('filePreviewContent');
+        const attachFileBtn = document.getElementById('attachFileBtn');
+        const removeFileBtn = document.getElementById('removeFileBtn');
+        const messageInput = document.getElementById('messageInput');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const newMessageBtn = document.getElementById('newMessageBtn');
+        const sendToMeBtn = document.getElementById('sendToMeBtn');
+        const voiceCallBtn = document.getElementById('voiceCallBtn');
+        const videoCallBtn = document.getElementById('videoCallBtn');
+        const moreOptionsBtn = document.getElementById('moreOptionsBtn');
+        const emojiBtn = document.getElementById('emojiBtn');
+        const searchInput = document.getElementById('searchInput');
+        const clearSearch = document.getElementById('clearSearch');
+        const newMessageModal = new bootstrap.Modal(document.getElementById('newMessageModal'));
+        const contactSearch = document.getElementById('contactSearch');
+        const contactList = document.getElementById('contactList');
+        const startChatBtn = document.getElementById('startChatBtn');
+
+        // Current state
+        let currentConversationId = null;
+        let selectedFile = null;
+
+        // Initialize tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        // Initialize the app
+        function init() {
+            renderConversationList();
+            setupEventListeners();
+        }
+
+        // Render conversation list
+        function renderConversationList() {
+            conversationList.innerHTML = conversations.map(conversation => `
+                <a href="#" class="list-group-item list-group-item-action border-0 py-3 px-4 ${currentConversationId === conversation.id ? 'conversation-active' : ''}" data-conversation="${conversation.id}">
+                    <div class="d-flex align-items-center">
+                        <div class="position-relative">
+                            <img src="${conversation.avatar}" class="rounded-circle me-3" width="48" height="48">
+                            ${conversation.online ? `<span class="position-absolute bottom-0 end-0 bg-green-500 border border-2 border-white rounded-circle unread-dot"></span>` : ''}
+                        </div>
+                        <div class="flex-grow-1 overflow-hidden">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="mb-0 ${currentConversationId === conversation.id ? 'fw-bold text-premium-dark' : 'text-premium-dark'}">${conversation.name}</h6>
+                                <small class="text-muted">${conversation.time}</small>
+                            </div>
+                            <p class="mb-0 text-truncate text-gray-600">${conversation.lastMessage}</p>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // Load conversation
+        function loadConversation(id) {
+            const conversation = conversations.find(c => c.id === id);
+            if (!conversation) return;
+
+            currentConversationId = id;
+            emptyState.classList.add('d-none');
+            
+            // Update header
+            currentChatName.textContent = conversation.name;
+            currentChatAvatar.src = conversation.avatar;
+            onlineStatus.className = `position-absolute bottom-0 end-0 ${conversation.online ? 'bg-green-500' : 'bg-gray-500'} border border-2 border-white rounded-circle unread-dot`;
+            
+            // Update typing indicator
+            updateTypingIndicator(conversation.typing);
+            
+            // Render messages
+            renderMessages(conversation.messages);
+            
+            // Update conversation list
+            renderConversationList();
+        }
+
+        // Render messages
+        function renderMessages(messages) {
+            if (messages.length === 0) {
+                messageContainer.innerHTML = `
+                    <div class="text-center py-5 text-muted">
+                        <i class="fas fa-comment-slash fs-1 mb-3"></i>
+                        <p>No messages yet</p>
+                    </div>
+                `;
+                return;
+            }
+
+            messageContainer.innerHTML = `
+                <div class="text-center my-4">
+                    <span class="px-3 py-1 bg-white text-gray-500 rounded-pill shadow-sm">Today</span>
+                </div>
+                ${messages.map(message => `
+                    <div class="d-flex mb-4 message-transition ${message.type === 'out' ? 'justify-content-end' : ''}">
+                        ${message.type === 'in' ? `<img src="${conversations.find(c => c.id === currentConversationId).avatar}" class="rounded-circle me-3 flex-shrink-0" width="40" height="40">` : ''}
+                        <div>
+                            <div class="${message.type === 'out' ? 'bg-sky-500 text-white' : 'bg-white'} rounded-3 p-3 mb-1 shadow-sm ${message.type === 'in' ? 'message-in' : 'message-out'}">
+                                ${message.file ? renderFileMessage(message.file) : `<p class="mb-0 ${message.type === 'out' ? 'text-white' : 'text-premium-dark'}">${message.text}</p>`}
+                            </div>
+                            <small class="text-muted d-flex align-items-center ${message.type === 'out' ? 'justify-content-end' : ''}">
+                                ${message.type === 'out' ? `<i class="fas fa-check${message.read ? '-double' : ''} ${message.read ? 'text-sky-500' : 'text-white-50'} me-2 fs-6"></i>` : ''}
+                                <span>${message.time}</span>
+                                ${message.type === 'in' ? `<i class="fas fa-check-double text-sky-500 ms-2 fs-6"></i>` : ''}
+                            </small>
+                        </div>
+                        ${message.type === 'out' ? `<img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle ms-3 flex-shrink-0" width="40" height="40">` : ''}
+                    </div>
+                `).join('')}
+            `;
+            
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        }
+
+        // Render file message
+        function renderFileMessage(file) {
+            if (file.type.startsWith('image/')) {
+                return `<img src="${file.url}" class="file-preview" alt="${file.name}">
+                        <div class="file-info">
+                            <small class="d-block">${file.name}</small>
+                            <small class="text-muted">${formatFileSize(file.size)}</small>
+                        </div>`;
+            } else {
+                return `<div class="d-flex align-items-center">
+                            <i class="fas fa-file ${getFileIcon(file.type)} me-2"></i>
+                            <div>
+                                <small class="d-block">${file.name}</small>
+                                <small class="text-muted">${formatFileSize(file.size)}</small>
+                            </div>
+                        </div>`;
+            }
+        }
+
+        // Get file icon
+        function getFileIcon(type) {
+            if (type.includes('pdf')) return 'fa-file-pdf text-danger';
+            if (type.includes('word') || type.includes('document')) return 'fa-file-word text-primary';
+            if (type.includes('excel') || type.includes('spreadsheet')) return 'fa-file-excel text-success';
+            if (type.includes('powerpoint') || type.includes('presentation')) return 'fa-file-powerpoint text-warning';
+            return 'fa-file';
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Update typing indicator
+        function updateTypingIndicator(isTyping) {
+            if (isTyping) {
+                typingIndicator.innerHTML = `
+                    <span class="text-green-500">Online</span>
+                    <span>•</span>
+                    <span>typing</span>
+                    <span>.</span>
+                    <span>.</span>
+                    <span>.</span>
+                `;
+            } else {
+                const conversation = conversations.find(c => c.id === currentConversationId);
+                typingIndicator.innerHTML = conversation.online ? 
+                    `<span class="text-green-500">Online</span>` : 
+                    `<span class="text-gray-500">Offline</span>`;
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Conversation list items
+            document.querySelectorAll('[data-conversation]').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loadConversation(parseInt(this.getAttribute('data-conversation')));
+                });
+            });
+
+            // Send message
+            sendMessageBtn.addEventListener('click', sendMessage);
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') sendMessage();
+            });
+
+            // File upload
+            attachFileBtn.addEventListener('click', () => fileUploadInput.click());
+            fileUploadInput.addEventListener('change', handleFileUpload);
+            removeFileBtn.addEventListener('click', removeFile);
+
+            // New message modal
+            newMessageBtn.addEventListener('click', showNewMessageModal);
+            sendToMeBtn.addEventListener('click', () => loadConversation(3));
+
+            // Search
+            searchInput.addEventListener('input', handleSearch);
+            clearSearch.addEventListener('click', clearSearchInput);
+
+            // Call buttons
+            voiceCallBtn.addEventListener('click', () => alert('Voice call initiated'));
+            videoCallBtn.addEventListener('click', () => alert('Video call initiated'));
+            moreOptionsBtn.addEventListener('click', () => alert('More options clicked'));
+            emojiBtn.addEventListener('click', () => alert('Emoji picker would open here'));
+        }
+
+        // Send message
+        function sendMessage() {
+            const messageText = messageInput.value.trim();
+            if (!messageText && !selectedFile) return;
+
+            const conversation = conversations.find(c => c.id === currentConversationId);
+            if (!conversation) return;
+
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const newMessage = {
+                type: "out",
+                text: messageText,
+                time: timeString,
+                read: false
+            };
+
+            if (selectedFile) {
+                newMessage.file = {
+                    name: selectedFile.name,
+                    type: selectedFile.type,
+                    size: selectedFile.size,
+                    url: URL.createObjectURL(selectedFile)
+                };
+            }
+
+            conversation.messages.push(newMessage);
+            conversation.lastMessage = messageText || `Sent a file: ${selectedFile.name}`;
+            conversation.time = "Just now";
+
+            renderMessages(conversation.messages);
+            renderConversationList();
+
+            // Clear inputs
+            messageInput.value = '';
+            removeFile();
+
+            // Simulate reply
+            if (currentConversationId !== 3) { // Don't simulate reply for "Message Me"
+                setTimeout(() => {
+                    simulateReply(conversation);
+                }, 1500 + Math.random() * 2000);
+            }
+        }
+
+        // Handle file upload
+        function handleFileUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            selectedFile = file;
+            filePreviewContainer.classList.remove('d-none');
+
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    filePreviewContent.innerHTML = `
+                        <img src="${e.target.result}" class="file-preview" alt="${file.name}">
+                        <div class="file-info">
+                            <small class="d-block">${file.name}</small>
+                            <small class="text-muted">${formatFileSize(file.size)}</small>
+                        </div>
+                    `;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                filePreviewContent.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <i class="fas ${getFileIcon(file.type)} me-2"></i>
+                        <div>
+                            <small class="d-block">${file.name}</small>
+                            <small class="text-muted">${formatFileSize(file.size)}</small>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Remove file
+        function removeFile() {
+            selectedFile = null;
+            fileUploadInput.value = '';
+            filePreviewContainer.classList.add('d-none');
+            filePreviewContent.innerHTML = '';
+        }
+
+        // Show new message modal
+        function showNewMessageModal() {
+            newMessageModal.show();
+            
+            // Simulate loading contacts
+            contactList.innerHTML = `
+                <div class="text-center py-4">
+                    <div class="spinner-border text-sky-500" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                contactList.innerHTML = conversations
+                    .filter(c => c.id !== 3) // Exclude "Message Me" option
+                    .map(contact => `
+                        <a href="#" class="list-group-item list-group-item-action border-0 py-3" data-contact-id="${contact.id}">
+                            <div class="d-flex align-items-center">
+                                <img src="${contact.avatar}" class="rounded-circle me-3" width="40" height="40">
+                                <div>
+                                    <h6 class="mb-0">${contact.name}</h6>
+                                    <small class="text-muted">${contact.lastMessage}</small>
+                                </div>
+                            </div>
+                        </a>
+                    `).join('');
+            }, 1000);
+        }
+
+        // Handle search
+        function handleSearch() {
+            if (this.value.length > 0) {
+                clearSearch.classList.remove('d-none');
+                // Filter conversations (simplified for demo)
+                const filtered = conversations.filter(c => 
+                    c.name.toLowerCase().includes(this.value.toLowerCase()) || 
+                    c.lastMessage.toLowerCase().includes(this.value.toLowerCase())
+                );
+                
+                renderFilteredConversations(filtered);
+            } else {
+                clearSearch.classList.add('d-none');
+                renderConversationList();
+            }
+        }
+
+        // Render filtered conversations
+        function renderFilteredConversations(filtered) {
+            conversationList.innerHTML = filtered.map(conversation => `
+                <a href="#" class="list-group-item list-group-item-action border-0 py-3 px-4" data-conversation="${conversation.id}">
+                    <div class="d-flex align-items-center">
+                        <div class="position-relative">
+                            <img src="${conversation.avatar}" class="rounded-circle me-3" width="48" height="48">
+                            ${conversation.online ? `<span class="position-absolute bottom-0 end-0 bg-green-500 border border-2 border-white rounded-circle unread-dot"></span>` : ''}
+                        </div>
+                        <div class="flex-grow-1 overflow-hidden">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="mb-0 text-premium-dark">${conversation.name}</h6>
+                                <small class="text-muted">${conversation.time}</small>
+                            </div>
+                            <p class="mb-0 text-truncate text-gray-600">${conversation.lastMessage}</p>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // Clear search
+        function clearSearchInput() {
+            searchInput.value = '';
+            clearSearch.classList.add('d-none');
+            renderConversationList();
+        }
+
+        // Simulate reply
+        function simulateReply(conversation) {
+            const replies = [
+                "That sounds interesting! Tell me more.",
+                "I'd be happy to help with that.",
+                "Let me check my schedule and get back to you.",
+                "Have you considered looking at our mentorship program?",
+                "That's a great question. Here's what I think..."
+            ];
+            
+            const randomReply = replies[Math.floor(Math.random() * replies.length)];
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const replyMessage = {
+                type: "in",
+                text: randomReply,
+                time: timeString,
+                read: true
+            };
+
+            conversation.messages.push(replyMessage);
+            conversation.lastMessage = randomReply;
+            conversation.time = "Just now";
+            conversation.typing = true;
+
+            renderMessages(conversation.messages);
+            renderConversationList();
+            updateTypingIndicator(true);
+
+            // Stop typing after delay
+            setTimeout(() => {
+                conversation.typing = false;
+                updateTypingIndicator(false);
+            }, 2000);
+        }
+
+        // Initialize the app
+        init();
+    </script>
+</body>
+</html>

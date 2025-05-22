@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOSA Alumni Network - Account Settings</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sky: {
+                            500: '#0ea5e9',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .dashboard-header {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+        }
+        .nav-link.active {
+            border-left: 3px solid #0ea5e9;
+            font-weight: 600;
+        }
+        .settings-card {
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+        }
+        .settings-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.1);
+        }
+        
+        /* Custom checkbox */
+        .custom-checkbox {
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid #0ea5e9;
+            border-radius: 0.25rem;
+            appearance: none;
+            cursor: pointer;
+            position: relative;
+        }
+        .custom-checkbox:checked {
+            background-color: #0ea5e9;
+        }
+        .custom-checkbox:checked::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.75rem;
+        }
+        
+        /* Toast notification */
+        .toast-notification {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 1100;
+            max-width: 350px;
+            display: none;
+            animation: slideIn 0.3s forwards, fadeOut 0.5s 3s forwards;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
+        /* Confirmation modal */
+        .confirmation-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1050;
+            align-items: center;
+            justify-content: center;
+        }
+        .confirmation-dialog {
+            background: white;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 400px;
+            padding: 1.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Mobile Menu Button -->
+    <button id="mobileMenuButton" class="fixed top-5 left-5 z-50 flex items-center justify-center w-12 h-12 bg-sky-500 text-white rounded-lg shadow-md hover:bg-sky-600 transition-all lg:hidden">
+        <i class="fas fa-bars text-xl"></i>
+    </button>
+    
+    <!-- Sidebar Overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-notification bg-white border-l-4 border-green-500 shadow-lg rounded-lg overflow-hidden">
+        <div class="flex items-center p-4">
+            <div class="bg-green-100 p-2 rounded-full mr-3">
+                <i class="fas fa-check-circle text-green-500"></i>
+            </div>
+            <div>
+                <p class="font-medium" id="toast-message">Operation completed successfully</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="confirmation-modal">
+        <div class="confirmation-dialog">
+            <h3 class="text-xl font-bold mb-4" id="modal-title">Confirm Action</h3>
+            <p class="mb-6 text-gray-600" id="modal-message">Are you sure you want to perform this action?</p>
+            <div class="flex justify-end space-x-3">
+                <button id="cancelBtn" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">Cancel</button>
+                <button id="confirmBtn" class="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Layout -->
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar w-64 bg-white shadow-md">
+            <div class="p-4 flex items-center border-b relative">
+                <button id="closeSidebar" class="sidebar-close-btn lg:hidden">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="flex items-center ml-8">
+                    <span class="ml-2 font-semibold text-lg">JOSA Alumni</span>
+                </div>
+            </div>
+            <nav class="mt-6">
+                <div class="px-4">
+                    <p class="text-gray-500 uppercase text-xs font-bold mb-4">Main Menu</p>
+                    <a href="dashboard.html" class="nav-link active flex items-center py-3 px-4 text-sky-500">
+                        <i class="fas fa-home mr-3"></i> Dashboard
+                    </a>
+                    <a href="directory.html" class="nav-link flex items-center py-3 px-4 text-gray-600 hover:text-sky-500">
+                        <i class="fas fa-users mr-3"></i> Alumni Directory
+                    </a>
+                    <a href="events.html" class="nav-link flex items-center py-3 px-4 text-gray-600 hover:text-sky-500">
+                        <i class="fas fa-calendar-alt mr-3"></i> Events
+                    </a>
+                    <a href="donations.html" class="nav-link flex items-center py-3 px-4 text-gray-600 hover:text-sky-500">
+                        <i class="fas fa-hand-holding-heart mr-3"></i> Donate
+                    </a>
+                    <a href="career.html" class="nav-link flex items-center py-3 px-4 text-gray-600 hover:text-sky-500">
+                        <i class="fas fa-briefcase mr-3"></i> Careers
+                    </a>
+                    <a href="mentorship.html" class="nav-link flex items-center py-3 px-4 text-gray-600 hover:text-sky-500">
+                        <i class="fas fa-hands-helping mr-3"></i> Mentorship
+                    </a>
+                </div>
+                <div class="px-4 mt-8">
+                    <p class="text-gray-500 uppercase text-xs font-bold mb-4">Account</p>
+                    <a href="profile.html" class="nav-link flex items-center py-3 px-4 text-gray-600 hover:text-sky-500">
+                        <i class="fas fa-user mr-3"></i> Profile
+                    </a>
+                    <a href="settings.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50">
+                        <i class="fas fa-cog mr-3"></i> Account Settings
+                    </a>
+                    <a href="login.html" class="nav-link flex items-center py-3 px-4 text-gray-600 hover:text-sky-500">
+                        <i class="fas fa-sign-out-alt mr-3"></i> Logout
+                    </a>
+                </div>
+            </nav>
+        </div>
+
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-auto main-content">
+            <!-- Header -->
+            <header class="dashboard-header text-white p-6 shadow-md">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-2xl font-bold">Account Settings</h1>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <i class="fas fa-bell text-xl cursor-pointer hover:text-sky-200 transition"></i>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                        </div>
+                        <div class="relative group">
+                            <button id="profileDropdownButton" class="flex items-center focus:outline-none">
+                                <img src="Images/Tes2.jpeg" alt="Profile" class="rounded-full h-10 w-10">
+                                <i class="fas fa-chevron-down ml-1 text-sm text-gray-300 group-hover:text-sky-300 transition"></i>
+                            </button>
+                            <!-- Dropdown menu -->
+                            <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 border">
+                                <div class="py-1">
+                                    <a href="profile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 transition">
+                                        <i class="fas fa-user-edit mr-2"></i> Edit Profile
+                                    </a>
+                                    <a href="account_settings.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 transition">
+                                        <i class="fas fa-cog mr-2"></i> Account Settings
+                                    </a>
+                                    <a href="notifications.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 transition">
+                                        <i class="fas fa-bell mr-2"></i> Notifications
+                                    </a>
+                                    <a href="login.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 transition border-t">
+                                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Settings Content -->
+            <div class="p-3">
+                <div class="max-w-4xl mx-auto space-y-6">
+                    <!-- Security Settings -->
+                    <section class="settings-card bg-white p-6 shadow">
+                        <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                            <i class="fas fa-shield-alt text-sky-500 mr-2"></i> Security Settings
+                        </h2>
+                        
+                        <div class="space-y-6">
+                            <!-- Password Change -->
+                            <div>
+                                <h3 class="font-semibold text-gray-700 mb-3">Change Password</h3>
+                                <form id="passwordForm" class="space-y-4">
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Current Password</label>
+                                        <input type="password" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">New Password</label>
+                                        <input type="password" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition">
+                                        <p class="text-xs text-gray-500 mt-1">Minimum 8 characters with at least one number and one special character</p>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Confirm New Password</label>
+                                        <input type="password" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition">
+                                    </div>
+                                    <button type="submit" class="bg-sky-500 hover:bg-sky-600 text-white py-2 px-4 rounded transition">
+                                        Update Password
+                                    </button>
+                                </form>
+                            </div>
+                            
+                            <!-- Two-Factor Authentication -->
+                            <div class="pt-4 border-t">
+                                <h3 class="font-semibold text-gray-700 mb-3">Two-Factor Authentication</h3>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-medium">Status: <span class="text-gray-600" id="2faStatus">Disabled</span></p>
+                                        <p class="text-sm text-gray-500">Add an extra layer of security to your account</p>
+                                    </div>
+                                    <button id="enable2FABtn" class="bg-white border border-sky-500 text-sky-500 hover:bg-sky-50 py-2 px-4 rounded transition">
+                                        Enable 2FA
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Recent Devices -->
+                            <div class="pt-4 border-t">
+                                <h3 class="font-semibold text-gray-700 mb-3">Active Sessions</h3>
+                                <div class="space-y-3" id="devicesList">
+                                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg" data-device-id="1">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-laptop text-sky-500 mr-3 text-xl"></i>
+                                            <div>
+                                                <p class="font-medium">Dell Latitude 7400 (Microsoft Edge)</p>
+                                                <p class="text-sm text-gray-500">Kampala, Uganda • Current session</p>
+                                            </div>
+                                        </div>
+                                        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Active</span>
+                                    </div>
+                                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg" data-device-id="2">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-mobile-alt text-sky-500 mr-3 text-xl"></i>
+                                            <div>
+                                                <p class="font-medium">iPhone 13 (Safari)</p>
+                                                <p class="text-sm text-gray-500">Kampala, Uganda • 2 days ago</p>
+                                            </div>
+                                        </div>
+                                        <button class="logout-device-btn text-red-500 hover:text-red-700 text-sm transition" data-device-id="2">
+                                            <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                                        </button>
+                                    </div>
+                                </div>
+                                <button id="logoutAllBtn" class="mt-3 text-sky-500 text-sm font-medium flex items-center hover:text-sky-600 transition">
+                                    <i class="fas fa-sign-out-alt mr-1"></i> Logout from all other devices
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Privacy Settings -->
+                    <section class="settings-card bg-white p-6 shadow">
+                        <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                            <i class="fas fa-user-secret text-sky-500 mr-2"></i> Privacy Settings
+                        </h2>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="font-medium">Profile Visibility</p>
+                                    <p class="text-sm text-gray-500">Who can see your profile in the alumni directory</p>
+                                </div>
+                                <select class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition">
+                                    <option>All Alumni</option>
+                                    <option>Only My Connections</option>
+                                    <option>Only Administrators</option>
+                                </select>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="font-medium">Contact Information Visibility</p>
+                                    <p class="text-sm text-gray-500">Who can see your contact details</p>
+                                </div>
+                                <select class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition">
+                                    <option>All Alumni</option>
+                                    <option>Only My Connections</option>
+                                    <option>Only Administrators</option>
+                                </select>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="font-medium">Allow Messages</p>
+                                    <p class="text-sm text-gray-500">Who can send you direct messages</p>
+                                </div>
+                                <select class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition">
+                                    <option>All Alumni</option>
+                                    <option>Only My Connections</option>
+                                    <option>No One</option>
+                                </select>
+                            </div>
+                            
+                            <div class="flex items-start pt-4 border-t">
+                                <input type="checkbox" id="alumniDirectory" class="custom-checkbox mr-3 mt-1">
+                                <label for="alumniDirectory" class="flex-1">
+                                    <p class="font-medium">Include in Alumni Directory</p>
+                                    <p class="text-sm text-gray-500">Your profile will be visible in the public alumni directory</p>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <input type="checkbox" id="eventNotifications" class="custom-checkbox mr-3 mt-1" checked>
+                                <label for="eventNotifications" class="flex-1">
+                                    <p class="font-medium">Event Notifications</p>
+                                    <p class="text-sm text-gray-500">Receive notifications about upcoming alumni events</p>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <input type="checkbox" id="newsletter" class="custom-checkbox mr-3 mt-1" checked>
+                                <label for="newsletter" class="flex-1">
+                                    <p class="font-medium">Alumni Newsletter</p>
+                                    <p class="text-sm text-gray-500">Receive monthly alumni newsletter</p>
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Notification Preferences -->
+                    <section class="settings-card bg-white p-6 shadow">
+                        <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                            <i class="fas fa-bell text-sky-500 mr-2"></i> Notification Preferences
+                        </h2>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <input type="checkbox" id="emailNotifications" class="custom-checkbox mr-3 mt-1" checked>
+                                <label for="emailNotifications" class="flex-1">
+                                    <p class="font-medium">Email Notifications</p>
+                                    <p class="text-sm text-gray-500">Receive important updates via email</p>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <input type="checkbox" id="pushNotifications" class="custom-checkbox mr-3 mt-1" checked>
+                                <label for="pushNotifications" class="flex-1">
+                                    <p class="font-medium">Push Notifications</p>
+                                    <p class="text-sm text-gray-500">Receive notifications on your devices</p>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <input type="checkbox" id="connectionRequests" class="custom-checkbox mr-3 mt-1" checked>
+                                <label for="connectionRequests" class="flex-1">
+                                    <p class="font-medium">Connection Requests</p>
+                                    <p class="text-sm text-gray-500">Get notified when someone wants to connect</p>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <input type="checkbox" id="mentorshipOpportunities" class="custom-checkbox mr-3 mt-1">
+                                <label for="mentorshipOpportunities" class="flex-1">
+                                    <p class="font-medium">Mentorship Opportunities</p>
+                                    <p class="text-sm text-gray-500">Receive notifications about mentorship programs</p>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <input type="checkbox" id="jobOpportunities" class="custom-checkbox mr-3 mt-1" checked>
+                                <label for="jobOpportunities" class="flex-1">
+                                    <p class="font-medium">Job Opportunities</p>
+                                    <p class="text-sm text-gray-500">Get notified about relevant job postings</p>
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Danger Zone -->
+                    <section class="settings-card bg-white p-6 shadow border border-red-200">
+                        <h2 class="text-xl font-bold text-red-600 mb-6 flex items-center">
+                            <i class="fas fa-exclamation-triangle mr-2"></i> Danger Zone
+                        </h2>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 bg-red-50 rounded-lg">
+                                <div>
+                                    <p class="font-medium text-red-600">Deactivate Account</p>
+                                    <p class="text-sm text-red-500">Temporarily disable your account</p>
+                                </div>
+                                <button id="deactivateBtn" class="bg-white border border-red-500 text-red-500 hover:bg-red-50 py-2 px-4 rounded transition">
+                                    Deactivate
+                                </button>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-4 bg-red-50 rounded-lg">
+                                <div>
+                                    <p class="font-medium text-red-600">Delete Account</p>
+                                    <p class="text-sm text-red-500">Permanently remove your account and all data</p>
+                                </div>
+                                <button id="deleteAccountBtn" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition">
+                                    Delete Account
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile sidebar toggle
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            const closeSidebar = document.getElementById('closeSidebar');
+            
+            // Toggle sidebar function
+            const toggleSidebar = () => {
+                sidebar.classList.toggle('-translate-x-full');
+                sidebarOverlay.classList.toggle('hidden');
+            };
+            
+            // Event listeners
+            mobileMenuButton.addEventListener('click', toggleSidebar);
+            closeSidebar.addEventListener('click', toggleSidebar);
+            sidebarOverlay.addEventListener('click', toggleSidebar);
+            
+            // Profile dropdown functionality
+            const profileDropdownButton = document.getElementById('profileDropdownButton');
+            const profileDropdown = document.getElementById('profileDropdown');
+            
+            profileDropdownButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdown.classList.toggle('hidden');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', () => {
+                profileDropdown.classList.add('hidden');
+            });
+            
+            // Prevent dropdown from closing when clicking inside it
+            profileDropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            // Toast notification system
+            function showToast(message, type = 'success') {
+                const toast = document.getElementById('toast');
+                const toastIcon = toast.querySelector('i');
+                const toastMessage = document.getElementById('toast-message');
+                
+                // Update toast appearance based on type
+                if (type === 'success') {
+                    toast.classList.remove('border-red-500');
+                    toast.classList.add('border-green-500');
+                    toastIcon.className = 'fas fa-check-circle text-green-500';
+                } else {
+                    toast.classList.remove('border-green-500');
+                    toast.classList.add('border-red-500');
+                    toastIcon.className = 'fas fa-times-circle text-red-500';
+                }
+                
+                toastMessage.textContent = message;
+                toast.style.display = 'flex';
+                
+                // Hide after 3 seconds
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                }, 3000);
+            }
+            
+            // Confirmation modal system
+            function showConfirmation(title, message, confirmCallback) {
+                const modal = document.getElementById('confirmationModal');
+                const modalTitle = document.getElementById('modal-title');
+                const modalMessage = document.getElementById('modal-message');
+                const confirmBtn = document.getElementById('confirmBtn');
+                const cancelBtn = document.getElementById('cancelBtn');
+                
+                modalTitle.textContent = title;
+                modalMessage.textContent = message;
+                modal.style.display = 'flex';
+                
+                // Clean up previous event listeners
+                const newConfirmBtn = confirmBtn.cloneNode(true);
+                const newCancelBtn = cancelBtn.cloneNode(true);
+                confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+                cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+                
+                // Set up new event listeners
+                newConfirmBtn.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                    confirmCallback();
+                });
+                
+                newCancelBtn.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                });
+            }
+            
+            // Logout device functionality
+            document.querySelectorAll('.logout-device-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const deviceId = this.getAttribute('data-device-id');
+                    const deviceName = this.closest('[data-device-id]').querySelector('.font-medium').textContent;
+                    
+                    showConfirmation(
+                        'Logout Device', 
+                        `Are you sure you want to logout from ${deviceName}?`,
+                        () => {
+                            // Simulate API call
+                            setTimeout(() => {
+                                const deviceElement = document.querySelector(`[data-device-id="${deviceId}"]`);
+                                if (deviceElement) {
+                                    deviceElement.remove();
+                                    showToast(`${deviceName} has been logged out`, 'success');
+                                }
+                            }, 800);
+                        }
+                    );
+                });
+            });
+            
+            // Logout all other devices
+            document.getElementById('logoutAllBtn').addEventListener('click', function() {
+                showConfirmation(
+                    'Logout All Devices', 
+                    'This will log you out from all devices except this one. Continue?',
+                    () => {
+                        // Simulate API call
+                        setTimeout(() => {
+                            const devices = Array.from(document.querySelectorAll('[data-device-id]'));
+                            devices.forEach(device => {
+                                if (!device.querySelector('span.bg-green-100')) {
+                                    device.remove();
+                                }
+                            });
+                            showToast('Logged out from all other devices', 'success');
+                        }, 1000);
+                    }
+                );
+            });
+            
+            // Enable 2FA
+            document.getElementById('enable2FABtn').addEventListener('click', function() {
+                showConfirmation(
+                    'Enable Two-Factor Authentication',
+                    'You will need to verify your identity using an authenticator app when logging in.',
+                    () => {
+                        // Simulate 2FA setup
+                        setTimeout(() => {
+                            this.textContent = '2FA Enabled';
+                            this.classList.remove('border-sky-500', 'text-sky-500', 'hover:bg-sky-50');
+                            this.classList.add('bg-green-500', 'text-white', 'hover:bg-green-600');
+                            document.getElementById('2faStatus').textContent = 'Enabled';
+                            showToast('Two-factor authentication enabled', 'success');
+                        }, 1000);
+                    }
+                );
+            });
+            
+            // Deactivate account
+            document.getElementById('deactivateBtn').addEventListener('click', function() {
+                showConfirmation(
+                    'Deactivate Account',
+                    'Your account will be temporarily disabled. You can reactivate by logging in again.',
+                    () => {
+                        // Simulate deactivation
+                        setTimeout(() => {
+                            showToast('Account deactivated successfully', 'success');
+                        }, 1000);
+                    }
+                );
+            });
+            
+            // Delete account
+            document.getElementById('deleteAccountBtn').addEventListener('click', function() {
+                showConfirmation(
+                    'Delete Account Permanently',
+                    'This cannot be undone! All your data will be permanently deleted.',
+                    () => {
+                        // Simulate account deletion
+                        setTimeout(() => {
+                            showToast('Account deletion initiated. Check your email for confirmation.', 'success');
+                        }, 1000);
+                    }
+                );
+            });
+            
+            // Password form submission
+            document.getElementById('passwordForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Simulate password change
+                setTimeout(() => {
+                    this.reset();
+                    showToast('Password changed successfully', 'success');
+                }, 800);
+            });
+        });
+    </script>
+</body>
+</html>

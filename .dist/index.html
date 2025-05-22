@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Join the JOSA Alumni Community to reconnect, share memories, and build the future together.">
+    <title>JOSA Alumni Network</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+         .faq-header {
+            background: linear-gradient(135deg, #3498db, #88b8e8);
+        }
+        
+        .faq-item {
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            transform: translateY(-2px);
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        :root {
+            --primary: hsl(212, 50%, 56%);
+            --secondary: #0ea5e9;
+            --accent: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-link {
+            position: relative;
+            padding-bottom: 5px;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        /* Mobile menu */
+        #mobile-menu {
+            display: none;
+            width: 100%;
+            background: var(--primary);
+            position: absolute;
+            top: 72px;
+            left: 0;
+            z-index: 1000;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        #mobile-menu.active {
+            display: block;
+        }
+        
+        /* Hero section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        /* Stats cards */
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Alumni carousel */
+        .alumni-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .alumni-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .alumni-img {
+            height: 200px;
+            object-fit: cover;
+            object-position: top;
+        }
+        
+        /* Testimonials */
+        .testimonial-card {
+            background: white;
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        .testimonial-card:before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 60px;
+            color: var(--secondary);
+            opacity: 0.2;
+            font-family: serif;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        .footer-link {
+            transition: all 0.2s ease;
+        }
+        
+        .footer-link:hover {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-outline {
+            border: 2px solid white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Section titles */
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            bottom: -8px;
+            left: 0;
+            background: var(--accent);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Sticky Navbar -->
+    <nav class="navbar text-white py-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center px-6">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3">
+                <img src="Images/logo.jpg" alt="JOSA Logo" class="h-10 w-10 rounded-full">
+                <span class="font-bold text-2xl">JOSA Alumni</span>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <ul class="hidden md:flex space-x-8 items-center">
+                <li><a href="#" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#alumni" class="nav-link">Alumni</a></li>
+                <li><a href="#events" class="nav-link">Events</a></li>
+                <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li>
+                    <a href="register.html" class="btn-primary px-6 py-2 rounded-lg font-semibold ml-4">
+                        Join Us <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </li>
+            </ul>
+            
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-white focus:outline-none" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu">
+            <ul class="space-y-4">
+                <li><a href="#" class="block py-2 hover:text-yellow-300 transition">Home</a></li>
+                <li><a href="#about" class="block py-2 hover:text-yellow-300 transition">About</a></li>
+                <li><a href="#alumni" class="block py-2 hover:text-yellow-300 transition">Alumni</a></li>
+                <li><a href="#events" class="block py-2 hover:text-yellow-300 transition">Events</a></li>
+                <li><a href="#testimonials" class="block py-2 hover:text-yellow-300 transition">Testimonials</a></li>
+                <li><a href="#contact" class="block py-2 hover:text-yellow-300 transition">Contact</a></li>
+            </ul>
+            <div class="mt-6">
+                <a href="register.html" class="btn-outline inline-block px-6 py-2 rounded-lg font-semibold text-center w-full">
+                    Join Our Network
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero relative min-h-screen flex items-center">
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="container mx-auto px-6 z-10 text-center text-white">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight">JOSA Alumni Network</h1>
+            <p class="text-xl sm:text-2xl mb-8 max-w-3xl mx-auto">Reconnect with classmates, expand your professional network, and give back to our alma mater</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="login.html" class="btn-primary px-8 py-3 rounded-lg font-semibold text-lg">
+                    Sign In <i class="fas fa-sign-in-alt ml-2"></i>
+                </a>
+                <a href="register.html" class="btn-outline px-8 py-3 rounded-lg font-semibold text-lg">
+                    Register <i class="fas fa-user-plus ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Stats Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12 section-title">Our Community By The Numbers</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="stat-card p-8 text-center">
+                    <div class="text-5xl font-bold  text-sky-500 mb-2">500</div>
+                    <div class="text-gray-600 uppercase tracking-wider">Registered Alumni</div>
+                    <div class="mt-4 text-sky-500">
+                        <i class="fas fa-users text-3xl"></i>
+                    </div>
+                </div>
+                <div class="stat-card p-8 text-center">
+                    <div class="text-5xl font-bold text-sky-500 mb-2">12+</div>
+                    <div class="text-gray-600 uppercase tracking-wider">Countries Represented</div>
+                    <div class="mt-4 text-sky-500">
+                        <i class="fas fa-globe text-3xl"></i>
+                    </div>
+                </div>
+                <div class="stat-card p-8 text-center">
+                    <div class="text-5xl font-bold text-sky-500 mb-2">10+</div>
+                    <div class="text-gray-600 uppercase tracking-wider">Scholarships Awarded</div>
+                    <div class="mt-4 text-sky-500">
+                        <i class="fas fa-graduation-cap text-3xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0 md:pr-12">
+                    <h2 class="text-3xl font-bold mb-6 section-title">About JOSA Alumni</h2>
+                    <p class="text-gray-700 mb-6 leading-relaxed">The JOSA Alumni Network is a global community of accomplished professionals united by our shared experience at JOSA. Our mission is to foster lifelong connections, support professional development, and contribute to the continued excellence of our alma mater.</p>
+                    <p class="text-gray-700 mb-6 leading-relaxed">Since our founding in 1985, we've grown to become one of the most active alumni networks, with members in over 120 countries making an impact in business, technology, arts, and public service.</p>
+                    <a href="register.html" class="btn-primary inline-block px-6 py-3 rounded-lg font-semibold">
+                        Learn More <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                <div class="md:w-1/2">
+                    <div class="relative rounded-xl overflow-hidden shadow-xl">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="JOSA Alumni Gathering" class="w-full h-auto rounded-xl">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-6">
+                            <h3 class="text-white text-xl font-semibold">2023 Global Alumni Summit</h3>
+                            <p class="text-gray-300">Over 500 alumni gathered in New York</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ <!-- Featured Alumni Section -->
+<section id="alumni" class="py-16 bg-white">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-12 section-title">Featured Alumni</h2>
+        <div id="alumniCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="alumni-card text-center p-6">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=688&q=80" 
+                                 alt="Priya Patel" 
+                                 class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
+                            <h3 class="text-xl font-bold text-sky-500">Priya Patel</h3>
+                            <p class="text-gray-600 mb-2">Class of 2010 | Investment Banker</p>
+                            <p class="text-gray-700 italic">"The alumni mentorship program helped me navigate Wall Street as a young professional."</p>
+                        </div>
+                        <div class="alumni-card text-center p-6">
+                            <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=699&q=80" 
+                                 alt="James Wilson" 
+                                 class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
+                            <h3 class="text-xl font-bold text-sky-500">James Wilson</h3>
+                            <p class="text-gray-600 mb-2">Class of 2008 | Architect</p>
+                            <p class="text-gray-700 italic">"I collaborate regularly with fellow alumni on international design projects."</p>
+                        </div>
+                        <div class="alumni-card text-center p-6">
+                            <img src="https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=686&q=80" 
+                                 alt="Maria Garcia" 
+                                 class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
+                            <h3 class="text-xl font-bold text-sky-500">Maria Garcia</h3>
+                            <p class="text-gray-600 mb-2">Class of 2015 | Nonprofit Director</p>
+                            <p class="text-gray-700 italic">"Our education initiative was funded by JOSA alumni donors."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#alumniCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon bg-sky-500 rounded-full p-4" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#alumniCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon bg-sky-500 rounded-full p-4" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        
+    </div>
+</section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12 section-title">Alumni Success Stories</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="testimonial-card p-8">
+                    <div class="flex items-center mb-6">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Emily Chen" class="w-16 h-16 rounded-full mr-4 object-cover">
+                        <div>
+                            <h3 class="text-xl font-bold">Emily Chen</h3>
+                            <p class="text-gray-600">Class of 2014 | Product Manager</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 pl-8">"Through the JOSA alumni network, I found my current role at a tech startup. The connections I made during our annual conference led to multiple job offers. The career guidance from senior alumni has been invaluable in navigating the tech industry."</p>
+                </div>
+                <div class="testimonial-card p-8">
+                    <div class="flex items-center mb-6">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Robert Johnson" class="w-16 h-16 rounded-full mr-4 object-cover">
+                        <div>
+                            <h3 class="text-xl font-bold">Robert Johnson</h3>
+                            <p class="text-gray-600">Class of 2002 | Venture Capitalist</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 pl-8">"I've invested in seven JOSA alumni-founded companies because I know the caliber of graduates our institution produces. The alumni network provides a trusted pool of talent and potential partners that I rely on for my investment decisions."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container py-5">
+        <!-- Header with Tailwind -->
+        <div class="faq-header text-white rounded-xl p-8 mb-8 shadow-lg">
+            <h1 class="text-4xl font-bold mb-3">Frequently Asked Questions</h1>
+            <p class="text-xl opacity-90">Find answers to common questions about the Josa Almnai Community</p>
+        </div>
+
+        <!-- Main FAQ content using Bootstrap accordion -->
+        <div class="row g-4">
+            <!-- General Questions -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm border-0 rounded-xl overflow-hidden">
+                    <div class="card-header bg-sky-500 text-white py-3 px-4">
+                        <h2 class="h5 mb-0">General Questions</h2>
+                    </div>
+                    <div class="accordion accordion-flush" id="generalAccordion">
+                        <!-- Item 1 -->
+                        <div class="accordion-item border-0">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed bg-gray-50 focus:ring-0" type="button" data-bs-toggle="collapse" data-bs-target="#generalOne">
+                                    What is the Josa Almnai community?
+                                </button>
+                            </h3>
+                            <div id="generalOne" class="accordion-collapse collapse" data-bs-parent="#generalAccordion">
+                                <div class="accordion-body">
+                                    Josa Almnai is a community dedicated to fostering professional networking and cultural exchange. We bring together alumni and professionals to share knowledge, opportunities, and experiences.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Item 2 -->
+                        <div class="accordion-item border-0">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed bg-gray-50" type="button" data-bs-toggle="collapse" data-bs-target="#generalTwo">
+                                    Who can join the Josa Almnai community?
+                                </button>
+                            </h3>
+                            <div id="generalTwo" class="accordion-collapse collapse" data-bs-parent="#generalAccordion">
+                                <div class="accordion-body">
+                                    Membership is open to alumni of our institution and professionals interested in our community's mission.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Item 3 -->
+                        <div class="accordion-item border-0">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed bg-gray-50" type="button" data-bs-toggle="collapse" data-bs-target="#generalThree">
+                                    How do I join the Josa Almnai community?
+                                </button>
+                            </h3>
+                            <div id="generalThree" class="accordion-collapse collapse" data-bs-parent="#generalAccordion">
+                                <div class="accordion-body">
+                                    You can register on our website by filling out the registration form and verifying your credentials.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Membership & Account -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm border-0 rounded-xl overflow-hidden">
+                    <div class="card-header bg-sky-500 text-white py-3 px-4">
+                        <h2 class="h5 mb-0">Membership & Account</h2>
+                    </div>
+                    <div class="accordion accordion-flush" id="accountAccordion">
+                        <!-- Item 1 -->
+                        <div class="accordion-item border-0">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed bg-gray-50" type="button" data-bs-toggle="collapse" data-bs-target="#accountOne">
+                                    How do I reset my password?
+                                </button>
+                            </h3>
+                            <div id="accountOne" class="accordion-collapse collapse" data-bs-parent="#accountAccordion">
+                                <div class="accordion-body">
+                                    Click on the "Forgot Password" link on the login page and follow the instructions sent to your registered email.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Item 2 -->
+                        <div class="accordion-item border-0">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed bg-gray-50" type="button" data-bs-toggle="collapse" data-bs-target="#accountTwo">
+                                    Can I update my profile information after registration?
+                                </button>
+                            </h3>
+                            <div id="accountTwo" class="accordion-collapse collapse" data-bs-parent="#accountAccordion">
+                                <div class="accordion-body">
+                                    Yes, you can edit your profile at any time by logging in and accessing the "My Profile" section.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Events & Activities -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm border-0 rounded-xl overflow-hidden">
+                    <div class="card-header bg-sky-500 text-white py-3 px-4">
+                        <h2 class="h5 mb-0">Events & Activities</h2>
+                    </div>
+                    <div class="accordion accordion-flush" id="eventsAccordion">
+                        <!-- Item 1 -->
+                        <div class="accordion-item border-0">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed bg-gray-50" type="button" data-bs-toggle="collapse" data-bs-target="#eventsOne">
+                                    How can I participate in community events?
+                                </button>
+                            </h3>
+                            <div id="eventsOne" class="accordion-collapse collapse" data-bs-parent="#eventsAccordion">
+                                <div class="accordion-body">
+                                    Upcoming events are listed on our website. Register by clicking on the event and following the instructions.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Item 2 -->
+                        <div class="accordion-item border-0">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed bg-gray-50" type="button" data-bs-toggle="collapse" data-bs-target="#eventsTwo">
+                                    Can I suggest or host an event for the community?
+                                </button>
+                            </h3>
+                            <div id="eventsTwo" class="accordion-collapse collapse" data-bs-parent="#eventsAccordion">
+                                <div class="accordion-body">
+                                    Yes! We encourage members to propose events. Contact our events team at events@josaalmnai.com.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Support -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm border-0 rounded-xl overflow-hidden">
+                    <div class="card-header bg-sky-500 text-white py-3 px-4">
+                        <h2 class="h5 mb-0">Technical Support</h2>
+                    </div>
+                    <div class="accordion accordion-flush" id="techAccordion">
+                        <!-- Item 1 -->
+                        <div class="accordion-item border-0">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed bg-gray-50" type="button" data-bs-toggle="collapse" data-bs-target="#techOne">
+                                    The website isn't loading properly. What should I do?
+                                </button>
+                            </h3>
+                            <div id="techOne" class="accordion-collapse collapse" data-bs-parent="#techAccordion">
+                                <div class="accordion-body">
+                                    Try clearing your browser cache or using a different browser. If the issue persists, contact support@josaalmnai.com.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact section with Tailwind -->
+        <div class="mt-8 bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="p-8 text-center">
+                <h3 class="text-2xl font-bold bg-sky-500 mb-3">Still have questions?</h3>
+                <p class="text-gray-600 mb-4">We're here to help! Contact our support team for assistance.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="mailto:support@josaalmnai.com" class="btn btn-primary px-4 py-2 rounded-pill">
+                        <i class="bi bi-envelope me-2"></i>Email Us
+                    </a>
+                    <a href="#" class="btn btn-outline-primary px-4 py-2 rounded-pill">
+                        <i class="bi bi-chat-left-text me-2"></i>Live Chat
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Call to Action -->
+    <!-- <section class="py-16 bg-blue-600 text-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold mb-6">Ready to Join Our Global Network?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Connect with thousands of accomplished alumni worldwide and unlock exclusive benefits for your personal and professional growth.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="register.html" class="btn-primary px-8 py-3 rounded-lg font-semibold text-lg bg-white text-blue-600 hover:text-white">
+                    Register Now <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+                <a href="#" class="btn-outline px-8 py-3 rounded-lg font-semibold text-lg">
+                    Learn About Benefits
+                </a>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Footer -->
+    <footer id="contact" class="py-12 text-white">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <img src="Images/logo.jpg" alt="JOSA Logo" class="h-8 w-8 rounded-full mr-2">
+                        JOSA Alumni
+                    </h3>
+                    <p class="text-gray-300 mb-4">Connecting generations of excellence since 1985.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white text-xl"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white text-xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white text-xl"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white text-xl"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="footer-link text-gray-300">Home</a></li>
+                        <li><a href="#about" class="footer-link text-gray-300">About</a></li>
+                        <li><a href="#alumni" class="footer-link text-gray-300">Alumni</a></li>
+                        <li><a href="#events" class="footer-link text-gray-300">Events</a></li>
+                        <li><a href="#testimonials" class="footer-link text-gray-300">Testimonials</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="footer-link text-gray-300">Career Services</a></li>
+                        <li><a href="#" class="footer-link text-gray-300">Mentorship Program</a></li>
+                        <li><a href="#" class="footer-link text-gray-300">Job Board</a></li>
+                        <li><a href="#" class="footer-link text-gray-300">Scholarships</a></li>
+                        <li><a href="#" class="footer-link text-gray-300">Volunteer</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-300"><i class="fas fa-map-marker-alt mr-2"></i> 123 Alumni Drive, University City</li>
+                        <li class="flex items-center text-gray-300"><i class="fas fa-phone-alt mr-2"></i> (555) 123-4567</li>
+                        <li class="flex items-center text-gray-300"><i class="fas fa-envelope mr-2"></i> alumni@josa.edu</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 JOSA Alumni Network. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu toggle functionality
+        const navToggle = document.getElementById('nav-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        navToggle.addEventListener('click', () => {
+            // Toggle mobile menu visibility
+            mobileMenu.classList.toggle('active');
+            // Toggle hamburger icon animation
+            navToggle.classList.toggle('active');
+            // Update aria-expanded attribute for accessibility
+            const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+            navToggle.setAttribute('aria-expanded', !isExpanded);
+        });
+        
+        // Close mobile menu when clicking on a link
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                navToggle.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

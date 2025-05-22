@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Directory | Connect With Graduates</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0ea5e9; /* Sky-500 */
+            --primary-light: #bae6fd; /* Sky-100 */
+            --primary-dark: #0369a1; /* Sky-700 */
+            --white: #ffffff;
+            --gray-light: #f8fafc;
+            --gray: #94a3b8;
+            --gray-dark: #334155;
+            --gradient: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--gray-light);
+            color: var(--gray-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header Styles */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem 0;
+            background: var(--gradient);
+            color: var(--white);
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Search and Filter */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: var(--white);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* Alumni Grid */
+        .alumni-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .alumni-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .profile-container {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: -60px auto 20px;
+            border: 4px solid var(--white);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            background: var(--primary-light);
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .card-header {
+            height: 100px;
+            background: var(--gradient);
+        }
+
+        .card-body {
+            padding: 0 20px 25px;
+            text-align: center;
+        }
+
+        .alumni-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .graduation-year {
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .alumni-title {
+            color: var(--gray);
+            margin-bottom: 15px;
+            min-height: 40px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(14, 165, 233, 0.2);
+        }
+
+        .social-links a {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            background: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+            }
+            .filter-group {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Alumni Directory</h1>
+            <p>Connect with graduates from our institution</p>
+        </header>
+
+        <div class="controls">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search alumni...">
+            </div>
+            <div class="filter-group">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-users"></i> All
+                </button>
+                <button class="filter-btn" data-filter="engineering">
+                    <i class="fas fa-cogs"></i> Engineering
+                </button>
+                <button class="filter-btn" data-filter="business">
+                    <i class="fas fa-chart-line"></i> Business
+                </button>
+                <button class="filter-btn" data-filter="arts">
+                    <i class="fas fa-paint-brush"></i> Arts
+                </button>
+                <button class="filter-btn" data-filter="science">
+                    <i class="fas fa-flask"></i> Science
+                </button>
+            </div>
+        </div>
+
+        <div class="alumni-grid" id="alumniGrid">
+            <!-- Cards will be inserted here by JavaScript -->
+        </div>
+    </div>
+    
+
+    <script>
+        // Sample alumni data
+        const alumniData = [
+            {
+                id: 1,
+                name: "Alex Johnson",
+                graduationYear: "2018",
+                title: "Software Engineer at Google",
+                field: "engineering",
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80",
+                social: {
+                    linkedin: "#",
+                    twitter: "#",
+                    email: "#"
+                }
+            },
+            {
+                id: 2,
+                name: "Maria Garcia",
+                graduationYear: "2015",
+                title: "Marketing Director at Apple",
+                field: "business",
+                image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80",
+                social: {
+                    linkedin: "#",
+                    twitter: "#",
+                    email: "#"
+                }
+            },
+            {
+                id: 3,
+                name: "James Wilson",
+                graduationYear: "2017",
+                title: "Data Scientist at Amazon",
+                field: "engineering",
+                image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80",
+                social: {
+                    linkedin: "#",
+                    twitter: "#",
+                    email: "#"
+                }
+            },
+            {
+                id: 4,
+                name: "Sarah Chen",
+                graduationYear: "2019",
+                title: "Financial Analyst at Goldman Sachs",
+                field: "business",
+                image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80",
+                social: {
+                    linkedin: "#",
+                    twitter: "#",
+                    email: "#"
+                }
+            },
+            {
+                id: 5,
+                name: "David Kim",
+                graduationYear: "2016",
+                title: "UX Designer at Facebook",
+                field: "arts",
+                image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80",
+                social: {
+                    linkedin: "#",
+                    twitter: "#",
+                    email: "#"
+                }
+            },
+            {
+                id: 6,
+                name: "Emily Rodriguez",
+                graduationYear: "2020",
+                title: "Biomedical Researcher at Mayo Clinic",
+                field: "science",
+                image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80",
+                social: {
+                    linkedin: "#",
+                    twitter: "#",
+                    email: "#"
+                }
+            },
+            {
+                id: 7,
+                name: "Michael Brown",
+                graduationYear: "2014",
+                title: "Senior Architect at Gensler",
+                field: "arts",
+                image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80",
+                social: {
+                    linkedin: "#",
+                    twitter: "#",
+                    email: "#"
+                }
+            },
+            {
+                id: 8,
+                name: "Olivia Patel",
+                graduationYear: "2021",
+                title: "AI Research Scientist at OpenAI",
+                field: "engineering",
+                image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80",
+                social: {
+                    linkedin: "#",
+                    twitter: "#",
+                    email: "#"
+                }
+            },
+            {
+                id: 9,
+                name: "Daniel Nguyen",
+                graduationYear: "2013",
+                title: "Investment Banker at JPMorgan",
+                field: "business",
+                image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80",
+                social: {
+                    linkedin: "#",
+                    twitter: "#",
+                    email: "#"
+                }
+            },
+            {
+                id: 10,
+                name: "Sophia Williams",
+                graduationYear: "2019",
+                title: "Environmental Scientist at NOAA",
+                field: "science",
+                image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80",
+                social: {
+                    linkedin: "#",
+                    twitter: "#",
+                    email: "#"
+                }
+            },
+            {
+                id: 11,
+                name: "Ethan Martinez",
+                graduationYear: "2017",
+                title: "Game Developer at Epic Games",
+                field: "engineering",
+                image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80",
+                social: {
+                    linkedin: "#",
+                    twitter: "#",
+                    email: "#"
+                }
+            },
+            {
+                id: 12,
+                name: "Ava Thompson",
+                graduationYear: "2016",
+                title: "Creative Director at Wieden+Kennedy",
+                field: "arts",
+                image: "https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80",
+                social: {
+                    linkedin: "#",
+                    twitter: "#",
+                    email: "#"
+                }
+            }
+        ];
+
+        // DOM Elements
+        const alumniGrid = document.getElementById('alumniGrid');
+        const searchInput = document.getElementById('searchInput');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+
+        // Display alumni
+        function displayAlumni(alumni) {
+            alumniGrid.innerHTML = alumni.map(alumnus => `
+                <div class="alumni-card">
+                    <div class="card-header"></div>
+                    <div class="profile-container">
+                        <img src="${alumnus.image}" alt="${alumnus.name}" class="profile-img">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="alumni-name">${alumnus.name}</h3>
+                        <span class="graduation-year">Class of ${alumnus.graduationYear}</span>
+                        <p class="alumni-title">${alumnus.title}</p>
+                        <div class="social-links">
+                            <a href="${alumnus.social.linkedin}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="${alumnus.social.twitter}" target="_blank"><i class="fab fa-twitter"></i></a>
+                            <a href="mailto:${alumnus.social.email}"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize
+        displayAlumni(alumniData);
+
+        // Search functionality
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = alumniData.filter(alumni => 
+                alumni.name.toLowerCase().includes(term) || 
+                alumni.title.toLowerCase().includes(term) ||
+                alumni.graduationYear.includes(term) ||
+                alumni.field.toLowerCase().includes(term)
+            );
+            displayAlumni(filtered);
+        });
+
+        // Filter functionality
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const filter = btn.dataset.filter;
+                const filtered = filter === 'all' 
+                    ? alumniData 
+                    : alumniData.filter(a => a.field === filter);
+                displayAlumni(filtered);
+            });
+        });
+    </script>
+</body>
+</html>

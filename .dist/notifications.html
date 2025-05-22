@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications | JOSA Alumni</title>
+    <style>
+        :root {
+            --sky-500: #0ea5e9;
+            --sky-400: #38bdf8;
+            --sky-100: #e0f2fe;
+            --sky-50: #f0f9ff;
+            --gray-800: #1f2937;
+            --gray-200: #e5e7eb;
+            --emerald-400: #34d399;
+            --amber-400: #fbbf24;
+            --rose-400: #fb7185;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 0;
+            color: var(--gray-800);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            color: var(--sky-500);
+            font-weight: bold;
+            font-size: 24px;
+        }
+        
+        .logo span {
+            color: var(--gray-800);
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--sky-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--sky-500);
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        h1 {
+            color: var(--sky-500);
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .notification {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        
+        .notification:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .notification.unread {
+            border-left: 4px solid var(--sky-500);
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .notification-icon.event {
+            background-color: var(--sky-100);
+            color: var(--sky-500);
+        }
+        
+        .notification-icon.job {
+            background-color: var(--emerald-400);
+            color: white;
+        }
+        
+        .notification-icon.alert {
+            background-color: var(--amber-400);
+            color: white;
+        }
+        
+        .notification-icon.urgent {
+            background-color: var(--rose-400);
+            color: white;
+        }
+        
+        .notification-content {
+            flex-grow: 1;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .notification-message {
+            color: #64748b;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .notification-time {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        
+        .notification-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .notification-action {
+            background: none;
+            border: none;
+            color: var(--sky-500);
+            font-size: 12px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        .notification-action:hover {
+            background-color: var(--sky-50);
+        }
+        
+        .mark-all-read {
+            display: block;
+            margin-left: auto;
+            margin-bottom: 20px;
+            background-color: var(--sky-500);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        
+        .mark-all-read:hover {
+            background-color: var(--sky-400);
+        }
+        
+        .mark-all-read:disabled {
+            background-color: var(--gray-200);
+            cursor: not-allowed;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #64748b;
+            display: none;
+        }
+        
+        .empty-state-icon {
+            font-size: 48px;
+            color: var(--sky-100);
+            margin-bottom: 20px;
+        }
+        
+        .notification-count {
+            background-color: var(--rose-400);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-button {
+            background-color: white;
+            border: 1px solid var(--gray-200);
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .filter-button:hover {
+            background-color: var(--sky-50);
+            border-color: var(--sky-100);
+        }
+        
+        .filter-button.active {
+            background-color: var(--sky-500);
+            color: white;
+            border-color: var(--sky-500);
+        }
+        
+        .notification.expanded .notification-message {
+            display: block;
+        }
+        
+        .notification.collapsed .notification-message {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .toggle-expand {
+            color: var(--sky-500);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">JOSA <span>Alumni</span></div>
+            <div class="user-menu">
+                <div class="avatar" id="user-avatar">JD
+                    <span class="notification-count" id="unread-count">3</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>Notifications</h1>
+            <button class="mark-all-read" id="mark-all-read">Mark all as read</button>
+        </div>
+        
+        <div class="filter-buttons">
+            <button class="filter-button active" data-filter="all">All</button>
+            <button class="filter-button" data-filter="unread">Unread</button>
+            <button class="filter-button" data-filter="events">Events</button>
+            <button class="filter-button" data-filter="jobs">Jobs</button>
+        </div>
+        
+        <div class="notification-list" id="notification-list">
+            <!-- Unread Notification -->
+            <div class="notification unread collapsed" data-type="event">
+                <div class="notification-icon event">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">Upcoming Alumni Meetup</div>
+                    <div class="notification-message">
+                        Join us for the annual JOSA Alumni reunion on June 15th at the University campus. This year we'll have special guest speakers, networking sessions, and a tour of the new computer science building. Register now to secure your spot! Early bird registration ends May 30th.
+                    </div>
+                    <button class="toggle-expand">Show more</button>
+                    <div class="notification-time">2 hours ago</div>
+                </div>
+                <div class="notification-actions">
+                    <button class="notification-action register-btn">Register</button>
+                    <button class="notification-action dismiss-btn">Dismiss</button>
+                </div>
+            </div>
+            
+            <!-- Job Opportunity Notification -->
+            <div class="notification unread collapsed" data-type="job">
+                <div class="notification-icon job">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">Job Opportunity at TechCorp</div>
+                    <div class="notification-message">
+                        TechCorp is looking for Senior Software Engineers with 5+ years of experience in JavaScript and cloud technologies. As a JOSA alumnus, you get priority consideration. The position offers competitive salary, remote work options, and excellent benefits. Apply by June 30th.
+                    </div>
+                    <button class="toggle-expand">Show more</button>
+                    <div class="notification-time">1 day ago</div>
+                </div>
+                <div class="notification-actions">
+                    <button class="notification-action view-btn">View Job</button>
+                    <button class="notification-action dismiss-btn">Dismiss</button>
+                </div>
+            </div>
+            
+            <!-- Alert Notification -->
+            <div class="notification collapsed" data-type="alert">
+                <div class="notification-icon alert">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">Profile Update Required</div>
+                    <div class="notification-message">
+                        Please update your profile information to help us keep the alumni directory current. It's been over a year since your last update. We've added new fields for your current position, skills, and mentorship preferences. Keeping your profile updated helps us connect you with relevant opportunities and other alumni.
+                    </div>
+                    <button class="toggle-expand">Show more</button>
+                    <div class="notification-time">3 days ago</div>
+                </div>
+                <div class="notification-actions">
+                    <button class="notification-action update-btn">Update</button>
+                    <button class="notification-action dismiss-btn">Dismiss</button>
+                </div>
+            </div>
+            
+            <!-- Read Notification -->
+            <div class="notification collapsed" data-type="event">
+                <div class="notification-icon event">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">Mentorship Program Invitation</div>
+                    <div class="notification-message">
+                        You've been matched with a current JOSA student for our mentorship program. Your mentee is Sarah Johnson, a third-year Computer Science student interested in web development. Please schedule your first meeting within the next two weeks. The mentorship portal now includes new resources to support your mentoring relationship.
+                    </div>
+                    <button class="toggle-expand">Show more</button>
+                    <div class="notification-time">1 week ago</div>
+                </div>
+                <div class="notification-actions">
+                    <button class="notification-action details-btn">View Details</button>
+                    <button class="notification-action dismiss-btn">Dismiss</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="empty-state" id="empty-state">
+            <div class="empty-state-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+            </div>
+            <h3>No notifications found</h3>
+            <p>When you have new notifications matching your filter, they'll appear here.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const notificationList = document.getElementById('notification-list');
+            const markAllReadBtn = document.getElementById('mark-all-read');
+            const filterButtons = document.querySelectorAll('.filter-button');
+            const emptyState = document.getElementById('empty-state');
+            const unreadCount = document.getElementById('unread-count');
+            
+            // Current filter state
+            let currentFilter = 'all';
+            
+            // Initialize notifications
+            const notifications = Array.from(document.querySelectorAll('.notification'));
+            let unreadNotifications = notifications.filter(n => n.classList.contains('unread'));
+            updateUnreadCount();
+            
+            // Mark all as read functionality
+            markAllReadBtn.addEventListener('click', function() {
+                notifications.forEach(notification => {
+                    notification.classList.remove('unread');
+                });
+                
+                unreadNotifications = [];
+                updateUnreadCount();
+                markAllReadBtn.disabled = true;
+                
+                // If filtering by unread, switch to all
+                if (currentFilter === 'unread') {
+                    filterNotifications('all');
+                    document.querySelector(`.filter-button[data-filter="all"]`).classList.add('active');
+                    document.querySelector(`.filter-button[data-filter="unread"]`).classList.remove('active');
+                }
+            });
+            
+            // Filter buttons functionality
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const filter = this.dataset.filter;
+                    
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filter notifications
+                    filterNotifications(filter);
+                    currentFilter = filter;
+                });
+            });
+            
+            // Toggle expand/collapse for notification messages
+            document.querySelectorAll('.toggle-expand').forEach(button => {
+                button.addEventListener('click', function() {
+                    const notification = this.closest('.notification');
+                    notification.classList.toggle('collapsed');
+                    notification.classList.toggle('expanded');
+                    
+                    this.textContent = notification.classList.contains('collapsed') ? 'Show more' : 'Show less';
+                });
+            });
+            
+            // Dismiss button functionality
+            document.querySelectorAll('.dismiss-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const notification = this.closest('.notification');
+                    notification.style.opacity = '0';
+                    notification.style.height = notification.offsetHeight + 'px';
+                    
+                    setTimeout(() => {
+                        notification.style.margin = '0';
+                        notification.style.padding = '0';
+                        notification.style.height = '0';
+                        notification.style.border = '0';
+                        
+                        setTimeout(() => {
+                            notification.remove();
+                            notifications.splice(notifications.indexOf(notification), 1);
+                            
+                            if (notification.classList.contains('unread')) {
+                                unreadNotifications.splice(unreadNotifications.indexOf(notification), 1);
+                                updateUnreadCount();
+                            }
+                            
+                            if (notifications.length === 0) {
+                                emptyState.style.display = 'block';
+                            }
+                        }, 200);
+                    }, 200);
+                });
+            });
+            
+            // Action buttons functionality
+            document.querySelectorAll('.notification-action:not(.dismiss-btn)').forEach(button => {
+                button.addEventListener('click', function() {
+                    const notification = this.closest('.notification');
+                    const action = this.textContent;
+                    
+                    // Mark as read when taking action
+                    notification.classList.remove('unread');
+                    unreadNotifications = unreadNotifications.filter(n => n !== notification);
+                    updateUnreadCount();
+                    
+                    // In a real app, this would perform the specific action
+                    alert(`Performing action: ${action}`);
+                });
+            });
+            
+            // User avatar click
+            document.getElementById('user-avatar').addEventListener('click', function() {
+                alert('User menu would open here');
+            });
+            
+            // Helper function to filter notifications
+            function filterNotifications(filter) {
+                let visibleCount = 0;
+                
+                notifications.forEach(notification => {
+                    const type = notification.dataset.type;
+                    const isUnread = notification.classList.contains('unread');
+                    
+                    let shouldShow = false;
+                    
+                    switch(filter) {
+                        case 'all':
+                            shouldShow = true;
+                            break;
+                        case 'unread':
+                            shouldShow = isUnread;
+                            break;
+                        case 'events':
+                            shouldShow = type === 'event';
+                            break;
+                        case 'jobs':
+                            shouldShow = type === 'job';
+                            break;
+                        default:
+                            shouldShow = true;
+                    }
+                    
+                    if (shouldShow) {
+                        notification.style.display = 'flex';
+                        visibleCount++;
+                    } else {
+                        notification.style.display = 'none';
+                    }
+                });
+                
+                // Show empty state if no notifications match the filter
+                if (visibleCount === 0) {
+                    emptyState.style.display = 'block';
+                } else {
+                    emptyState.style.display = 'none';
+                }
+            }
+            
+            // Helper function to update unread count badge
+            function updateUnreadCount() {
+                const count = unreadNotifications.length;
+                unreadCount.textContent = count;
+                
+                if (count === 0) {
+                    unreadCount.style.display = 'none';
+                    markAllReadBtn.disabled = true;
+                } else {
+                    unreadCount.style.display = 'flex';
+                    markAllReadBtn.disabled = false;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
